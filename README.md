@@ -55,6 +55,8 @@ npm run setup     # Clone all repos, install deps, build everything
 npm run update    # Pull latest changes from all repos
 npm run clean     # Clean all build artifacts
 npm run status    # Show status of all repositories
+npm run sync      # Sync with ~/Projects directory (auto-detect changes)
+npm run sync:watch # Start continuous sync with file system watcher
 ```
 
 ### Development

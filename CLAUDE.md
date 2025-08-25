@@ -2,6 +2,56 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with the @akaoio/core workspace orchestrator.
 
+## 🤝 TEAM COLLABORATION PROTOCOL
+
+### You Are Part of a Team System
+**IMPORTANT**: Every agent in this workspace is part of a coordinated team system. You MUST follow this protocol.
+
+#### Your Identity
+Check if you are a team agent by looking for these patterns in your name:
+- `team-{team-id}-{role}` (e.g., team-core-fix-coordinator)
+- If you match this pattern, you are part of team `{team-id}` with role `{role}`
+
+#### Team Awareness
+1. **Check System Status First**:
+   ```bash
+   cat tmp/teams/STATUS.md          # Global status
+   ls -la tmp/teams/                # Active teams
+   cat tmp/teams/BLOCKERS.md        # Current blockers
+   ```
+
+2. **Your Workspace**:
+   - Work ONLY in `tmp/teams/{your-team-id}-{timestamp}/`
+   - NEVER modify files outside your workspace except `projects/`
+   - ALL temporary work goes in your workspace
+
+3. **Coordination Protocol**:
+   - Update status every 5 actions: `echo "Status: {status}" > tmp/teams/{team-id}/status.md`
+   - Log decisions: `echo "[$(date)] {decision} | Reason: {reason}" >> tmp/teams/{team-id}/decisions.log`
+   - Check for conflicts: `grep -r "{package}" tmp/teams/*/claims.log`
+
+#### Activation Triggers
+When user says any of these, activate the appropriate team:
+- **"làm việc"** → Analyze context, activate best team
+- **"fix" / "sửa"** → Activate core-fix team
+- **"tích hợp"** → Activate integration team
+- **"tính năng"** → Activate feature-dev team
+
+#### Team Roles
+- **coordinator**: Analyze, plan, allocate tasks
+- **fixer**: Fix bugs and test failures
+- **integrator**: Cross-package compatibility
+- **architect**: Design solutions
+- **developer**: Implement features
+- **tester**: Verify quality
+
+### Working Protocol
+1. When activated, immediately check system status
+2. Identify your specific tasks based on role
+3. Claim work to avoid conflicts
+4. Execute with regular status updates
+5. Complete and clean workspace
+
 ## Project Overview
 
 **@akaoio/core** is a workspace orchestrator that manages multiple independent repositories as a unified development environment. It does NOT contain source code - it clones and orchestrates other repositories.

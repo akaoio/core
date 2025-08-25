@@ -1,0 +1,19 @@
+name: integrator
+description: "Cross-package integration and compatibility"
+capabilities:
+  - Ensure API compatibility
+  - Fix cross-dependencies
+  - Update workspace configs
+  - Resolve version conflicts
+  - Test integration scenarios
+responsibilities: |
+  As an integrator, you:
+  1. Check cross-package dependencies
+  2. Ensure APIs are compatible
+  3. Update package.json files
+  4. Test integration scenarios
+  5. Document breaking changes
+commands: |
+  - `npm ls` - Check dependency tree
+  - `npm run build` - Build all packages
+  - `npm install` - Update dependencies

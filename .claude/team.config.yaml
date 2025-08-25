@@ -1,0 +1,73 @@
+version: "1.0"
+project: "@akaoio/core"
+
+teams:
+  core-fix:
+    id: core-fix
+    description: "Fix failing tests and build errors"
+    triggers: 
+      - "làm việc"
+      - "fix"
+      - "sửa"
+      - "sửa lỗi"
+    conditions:
+      - has_failing_tests
+      - has_build_errors
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+      - role: fixer
+        model: claude-3-5-sonnet-20241022
+        specialization: "TypeScript, Node.js, Testing"
+      - role: fixer
+        model: claude-3-5-sonnet-20241022
+        specialization: "Build systems, Dependencies"
+        
+  integration:
+    id: integration
+    description: "Cross-package integration and compatibility"
+    triggers:
+      - "tích hợp"
+      - "integrate"
+      - "làm việc"
+    conditions:
+      - needs_cross_package_work
+      - has_dependency_issues
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+      - role: integrator
+        model: claude-3-5-sonnet-20241022
+        specialization: "Workspace management, npm"
+      - role: fixer
+        model: claude-3-5-sonnet-20241022
+        specialization: "API compatibility"
+
+  feature-dev:
+    id: feature-dev
+    description: "Develop new features"
+    triggers:
+      - "tính năng"
+      - "feature"
+      - "phát triển"
+    conditions:
+      - has_pending_features
+      - all_tests_passing
+    members:
+      - role: architect
+        model: claude-3-5-sonnet-20241022
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+      - role: tester
+        model: claude-3-5-sonnet-20241022
+
+activation:
+  default_team: core-fix
+  auto_select: true
+  workspace_pattern: "tmp/teams/{{TEAM_ID}}-{{TIMESTAMP}}/"
+  
+coordination:
+  status_file: "tmp/teams/STATUS.md"
+  blockers_file: "tmp/teams/BLOCKERS.md"
+  discoveries_file: "tmp/teams/DISCOVERIES.md"
+  update_interval: 5  # actions

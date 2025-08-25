@@ -14,10 +14,20 @@
     "publish": "node scripts/publish.js",
     "dev": "npm run setup && npm run build",
     "clean": "node scripts/clean.js",
-    "status": "node scripts/status.js"
+    "status": "node scripts/status.js",
+    "sync": "node scripts/sync.js",
+    "sync:watch": "node scripts/sync.js --watch",
+    "sync:dry": "node scripts/sync.js --dry-run",
+    "sync:to-core": "node scripts/sync.js --to-core",
+    "sync:to-projects": "node scripts/sync.js --to-projects"
   },
   "workspaces": [
-    "projects/*"
+    "projects/composer",
+    "projects/battle", 
+    "projects/builder",
+    "projects/air",
+    "projects/tui",
+    "projects/ui"
   ],
   "keywords": [
     "akaoio",
@@ -41,6 +51,7 @@
   },
   "devDependencies": {
     "chalk": "^5.0.0",
-    "ora": "^6.0.0"
+    "ora": "^6.0.0",
+    "chokidar": "^3.5.3"
   }
 }

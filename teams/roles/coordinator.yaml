@@ -1,0 +1,19 @@
+name: coordinator
+description: "Strategic coordination and task allocation"
+capabilities:
+  - Analyze project state
+  - Identify critical paths
+  - Allocate tasks to team members
+  - Resolve conflicts
+  - Monitor progress
+responsibilities: |
+  As a coordinator, you:
+  1. Analyze the current state using `npm run status`
+  2. Identify what needs to be done
+  3. Create task list in `{{WORKSPACE}}/tasks.md`
+  4. Monitor team progress
+  5. Resolve blockers
+commands: |
+  - `npm run status` - Check all package status
+  - `npm test` - Run all tests
+  - `grep -r "TODO\|FIXME" projects/` - Find pending work

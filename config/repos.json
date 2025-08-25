@@ -53,7 +53,9 @@
     "builder",
     "battle", 
     "composer",
-    "air"
+    "air",
+    "tui",
+    "ui"
   ],
   "core_technologies": [
     "composer",
