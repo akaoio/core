@@ -1,0 +1,46 @@
+{
+  "name": "@akaoio/core",
+  "version": "1.0.0",
+  "description": "AKAO.IO Core Technologies Workspace - Orchestrates all @akaoio packages",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "update": "node scripts/update.js",
+    "build": "node scripts/build.js",
+    "build:all": "npm run build",
+    "test": "node scripts/test.js",
+    "test:all": "npm test",
+    "publish": "node scripts/publish.js",
+    "dev": "npm run setup && npm run build",
+    "clean": "node scripts/clean.js",
+    "status": "node scripts/status.js"
+  },
+  "workspaces": [
+    "projects/*"
+  ],
+  "keywords": [
+    "akaoio",
+    "workspace",
+    "orchestrator",
+    "core-technologies",
+    "composer",
+    "battle",
+    "builder",
+    "air"
+  ],
+  "author": "AKAO.IO",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akaoio/core"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "chalk": "^5.0.0",
+    "ora": "^6.0.0"
+  }
+}

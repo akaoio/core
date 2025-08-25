@@ -1,0 +1,48 @@
+{
+  "repositories": {
+    "composer": {
+      "url": "file:///home/x/Projects/composer",
+      "branch": "main",
+      "directory": "projects/composer",
+      "description": "Atomic document composition engine",
+      "core": true,
+      "dependencies": ["battle", "builder"]
+    },
+    "battle": {
+      "url": "file:///home/x/Projects/battle", 
+      "branch": "main",
+      "directory": "projects/battle",
+      "description": "Universal terminal testing framework",
+      "core": true,
+      "dependencies": ["builder"]
+    },
+    "builder": {
+      "url": "file:///home/x/Projects/builder",
+      "branch": "main", 
+      "directory": "projects/builder",
+      "description": "Universal TypeScript build framework",
+      "core": true,
+      "dependencies": ["battle"]
+    },
+    "air": {
+      "url": "file:///home/x/Projects/air",
+      "branch": "main",
+      "directory": "projects/air", 
+      "description": "Distributed P2P database system",
+      "core": true,
+      "dependencies": ["battle"]
+    }
+  },
+  "build_order": [
+    "builder",
+    "battle", 
+    "composer",
+    "air"
+  ],
+  "core_technologies": [
+    "composer",
+    "battle", 
+    "builder",
+    "air"
+  ]
+}
