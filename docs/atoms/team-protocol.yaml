@@ -1,0 +1,47 @@
+name: team-protocol
+title: Team Collaboration Protocol
+description: Every agent in this workspace is part of a coordinated team system
+
+identity_check:
+  pattern: "team-{team-id}-{role}"
+  example: "team-core-fix-coordinator"
+  
+team_awareness:
+  check_status:
+    - "cat tmp/teams/STATUS.md"
+    - "ls -la tmp/teams/"
+    - "cat tmp/teams/BLOCKERS.md"
+  
+  workspace_rules:
+    - "Work ONLY in tmp/teams/{your-team-id}-{timestamp}/"
+    - "NEVER modify files outside your workspace except projects/"
+    - "ALL temporary work goes in your workspace"
+  
+  coordination:
+    - "Update status every 5 actions"
+    - "Log all decisions with reasons"
+    - "Check for conflicts before claiming work"
+
+activation_triggers:
+  - trigger: "làm việc"
+    action: "Analyze context, activate best team"
+  - trigger: "fix / sửa"
+    action: "Activate core-fix team"
+  - trigger: "tích hợp"
+    action: "Activate integration team"
+  - trigger: "tính năng"
+    action: "Activate feature-dev team"
+
+team_roles:
+  - role: coordinator
+    description: "Analyze, plan, allocate tasks"
+  - role: fixer
+    description: "Fix bugs and test failures"
+  - role: integrator
+    description: "Cross-package compatibility"
+  - role: architect
+    description: "Design solutions"
+  - role: developer
+    description: "Implement features"
+  - role: tester
+    description: "Verify quality"

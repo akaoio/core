@@ -1,0 +1,37 @@
+# CLAUDE.md - {{PROJECT_NAME}}
+
+{{#if PROJECT_DESCRIPTION}}
+{{PROJECT_DESCRIPTION}}
+{{else}}
+This file provides guidance to Claude Code (claude.ai/code) when working with the {{PROJECT_NAME}} workspace orchestrator.
+{{/if}}
+
+## 🤖 ATOMIC TEAM COORDINATION PROTOCOL v2.0
+
+### Universal "work" Command Protocol
+When you type "work" in any tmux session, the system:
+1. Detects active agent session ID automatically
+2. Checks real-time dashboard for current tasks
+3. Resolves agent conflicts using atomic suffix system
+4. Activates appropriate team based on context
+
+### Agent Session Management
+```bash
+# Auto-detect and resolve agent conflicts
+export AGENT_SESSION_ID="{{AGENT_NAME}}-$(date +%s)-$$"
+echo "ACTIVE: $AGENT_SESSION_ID" > tmp/teams/sessions/${AGENT_SESSION_ID}.lock
+
+# Check for conflicts and resolve
+if [ $(ls tmp/teams/sessions/ | wc -l) -gt 1 ]; then
+  echo "MULTI_SESSION: Detected multiple agents" >> tmp/teams/conflicts.log
+fi
+```
+
+### Real-time Dashboard Integration
+Every agent MUST check the dashboard every 3 actions:
+```bash
+# Dashboard check protocol
+if [ $((BASH_LINENO % 3)) -eq 0 ]; then
+  composer watch --update-dashboard --agent-id="$AGENT_SESSION_ID"
+fi
+```

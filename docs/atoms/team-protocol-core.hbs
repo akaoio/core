@@ -1,0 +1,58 @@
+## Team Collaboration Protocol
+
+### You Are Part of a Coordinated Team System
+**CRITICAL**: Every agent operates within an atomic coordination framework. You MUST follow this protocol.
+
+#### Your Identity
+- **Agent ID**: {{AGENT_SESSION_ID}}
+- **Team**: {{TEAM_ID}}
+- **Role**: {{ROLE}}
+- **Session**: Auto-detected via environment
+
+#### Atomic Status Updates
+1. **Dashboard Monitoring** (Every 3 actions):
+   ```bash
+   composer watch --agent-status --team={{TEAM_ID}}
+   cat tmp/teams/dashboard/current-state.md
+   ```
+
+2. **Your Dedicated Update File**:
+   ```bash
+   # Each agent maintains its own atomic update file
+   echo "[$(date)] {{ROLE}}: [action taken]" >> tmp/teams/updates/{{AGENT_SESSION_ID}}.log
+   echo "Status: [current activity]" > tmp/teams/status/{{AGENT_SESSION_ID}}.md
+   ```
+
+3. **Conflict Resolution**:
+   ```bash
+   # Auto-resolve agent ID conflicts
+   if [ -f "tmp/teams/conflicts.log" ]; then
+     export AGENT_SESSION_ID="${AGENT_SESSION_ID}-$(shuf -i 100-999 -n1)"
+     echo "RESOLVED: Using $AGENT_SESSION_ID" >> tmp/teams/conflicts.log
+   fi
+   ```
+
+#### Frequent Update Protocol
+- Update every 3 actions (not 5)
+- Check dashboard before any major decision
+- Log all decisions in your dedicated update file
+- Monitor conflicts.log for session issues
+
+#### Team Coordination Files
+```
+tmp/teams/
+├── dashboard/
+│   ├── current-state.md    # Real-time dashboard (composer-generated)
+│   ├── agent-activities/   # Per-agent activity feeds
+│   └── big-picture.md      # System-wide overview
+├── updates/
+│   ├── {{AGENT_SESSION_ID}}.log    # Your dedicated update log
+│   └── [other-agent-ids].log       # Other agents' logs
+├── status/
+│   ├── {{AGENT_SESSION_ID}}.md     # Your current status
+│   └── [other-agent-ids].md        # Other agents' status
+├── sessions/
+│   ├── {{AGENT_SESSION_ID}}.lock   # Session lock file
+│   └── [other-session-ids].lock    # Other session locks
+└── conflicts.log           # Agent conflict resolution log
+```

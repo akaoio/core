@@ -1,0 +1,37 @@
+name: project-overview
+title: Project Overview
+description: |
+  **@akaoio/core** is a workspace orchestrator that manages multiple independent repositories 
+  as a unified development environment. It does NOT contain source code - it clones and 
+  orchestrates other repositories.
+
+key_concept: Multi-repository workspace with individual repository independence
+
+architecture:
+  pattern: Workspace Orchestrator
+  structure:
+    - name: "@akaoio/core"
+      type: orchestrator
+      description: "This orchestrator repo"
+    - name: "projects/"
+      type: directory
+      description: "Cloned repositories (gitignored)"
+      contents:
+        composer: "Atomic documentation engine"
+        battle: "Universal terminal testing framework"
+        builder: "TypeScript build framework"
+        air: "Distributed P2P database"
+
+core_technologies:
+  - name: "@akaoio/composer"
+    description: "Atomic documentation engine"
+    purpose: "Generate all documentation from atomic pieces"
+  - name: "@akaoio/battle"
+    description: "Universal terminal testing framework"
+    purpose: "Test all projects with real PTY"
+  - name: "@akaoio/builder"
+    description: "TypeScript build framework"
+    purpose: "Build all TypeScript projects"
+  - name: "@akaoio/air"
+    description: "Distributed P2P database"
+    purpose: "P2P networking and data distribution"

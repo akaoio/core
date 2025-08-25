@@ -1,0 +1,195 @@
+# CLAUDE.md - @akaoio/core
+
+This file provides guidance to Claude Code (claude.ai/code) when working with the @akaoio/core workspace orchestrator.
+
+## 🤝 TEAM COLLABORATION PROTOCOL
+
+### You Are Part of a Team System
+**IMPORTANT**: {{team_protocol.description}}. You MUST follow this protocol.
+
+#### Your Identity
+Check if you are a team agent by looking for these patterns in your name:
+- `{{team_protocol.identity_check.pattern}}` (e.g., {{team_protocol.identity_check.example}})
+- If you match this pattern, you are part of team `{team-id}` with role `{role}`
+
+#### Team Awareness
+1. **Check System Status First**:
+   ```bash
+   {{#each team_protocol.team_awareness.check_status}}
+   {{this}}
+   {{/each}}
+   ```
+
+2. **Your Workspace**:
+   {{#each team_protocol.team_awareness.workspace_rules}}
+   - {{this}}
+   {{/each}}
+
+3. **Coordination Protocol**:
+   {{#each team_protocol.team_awareness.coordination}}
+   - {{this}}
+   {{/each}}
+
+#### Activation Triggers
+When user says any of these, activate the appropriate team:
+{{#each team_protocol.activation_triggers}}
+- **"{{this.trigger}}"** → {{this.action}}
+{{/each}}
+
+#### Standardized "work" Command
+When the user says "work" or "làm việc", ALL agents follow this protocol:
+1. **Auto-detect context** and activate the best-matching team
+2. **Initialize agent session** with conflict resolution
+3. **Generate dashboard** immediately 
+4. **Check SYSTEM-DASHBOARD.md** before starting work
+5. **Update every 3 actions** with dedicated agent files
+
+```bash
+# Standard work command protocol
+echo "🚀 Activating agent based on context..."
+cat SYSTEM-DASHBOARD.md 2>/dev/null || node teams/generate-dashboard.cjs
+echo "📊 Dashboard checked - beginning work session"
+```
+
+#### Team Roles
+{{#each team_protocol.team_roles}}
+- **{{this.role}}**: {{this.description}}
+{{/each}}
+
+## {{project_overview.title}}
+
+{{project_overview.description}}
+
+**Key Concept**: {{project_overview.key_concept}}
+
+## Architecture Pattern
+
+### Repository Structure
+```
+@akaoio/core/                    # {{project_overview.architecture.pattern}}
+├── package.json                 # Workspace configuration  
+├── scripts/                     # Orchestration scripts
+├── config/repos.json           # Repository definitions
+├── projects/                   # {{project_overview.architecture.structure.[1].description}}
+│   ├── composer/               # {{project_overview.architecture.structure.[1].contents.composer}}
+│   ├── battle/                 # {{project_overview.architecture.structure.[1].contents.battle}}
+│   ├── builder/                # {{project_overview.architecture.structure.[1].contents.builder}}
+│   └── air/                    # {{project_overview.architecture.structure.[1].contents.air}}
+└── [orchestration files]
+```
+
+### Core Technologies Managed
+{{#each project_overview.core_technologies}}
+{{@index}}. **{{this.name}}** - {{this.description}}
+{{/each}}
+
+## 🏗️ UNIVERSAL BUILD ARCHITECTURE PRINCIPLES
+
+### Critical Universal Rules (ALL Workspace Projects)
+{{#each build_architecture.universal_rules}}
+{{@index}}. **{{this.rule}}**: {{this.description}}
+   - **Applies to**: {{this.applies_to}}
+   {{#if this.violation_impact}}- **Impact**: {{this.violation_impact}}{{/if}}
+   {{#if this.rationale}}- **Rationale**: {{this.rationale}}{{/if}}
+   {{#if this.workflow}}- **Workflow**: {{this.workflow}}{{/if}}
+
+{{/each}}
+
+### Workspace-Wide Policy
+**{{build_architecture.workspace_policy.enforcement}}**:
+
+#### Managed Projects Build Systems
+{{#each build_architecture.workspace_policy.managed_projects}}
+- **{{this.name}}**: {{this.build_system}}
+  - Source: {{#each this.source_extensions}}`{{this}}`{{#unless @last}}, {{/unless}}{{/each}}
+  - Built: {{#each this.artifact_extensions}}`{{this}}`{{#unless @last}}, {{/unless}}{{/each}}
+{{/each}}
+
+### Development Workflow Requirements
+{{#each build_architecture.development_workflow.critical_steps}}
+{{@index}}. **{{this.step}}** ({{this.importance}})
+   - {{this.action}}
+{{/each}}
+
+### ⚠️ Critical Warnings
+{{#each build_architecture.warnings}}
+- **{{this.type}}**: {{this.message}}
+  - {{this.detail}}
+{{/each}}
+
+### File Identification Guide
+**Built Artifacts** (NEVER EDIT):
+{{#each build_architecture.identification_hints.built_artifacts.indicators}}
+- {{this}}
+{{/each}}
+
+**Source Files** (ALWAYS EDIT):
+{{#each build_architecture.identification_hints.source_files.indicators}}
+- {{this}}
+{{/each}}
+
+## Development Workflow
+
+### Initial Setup
+```bash
+git clone https://github.com/akaoio/core.git
+cd core
+npm run setup    # Clones all repos, configures workspace, builds everything
+```
+
+### Daily Development
+```bash
+npm run update   # Pull latest from all repos
+npm run build    # Build all projects in dependency order
+npm test         # Run all test suites
+npm run status   # Check health of all repositories
+```
+
+### Making Changes
+1. **Edit in individual projects**: `cd projects/composer/`
+2. **Build changed project**: `npm run build`
+3. **Test immediately in other projects** - no publishing needed
+4. **Commit in individual project repos** - normal git workflow
+
+## Available Scripts
+
+### Management Scripts (`scripts/`)
+- `setup.js` - Clone repositories and setup workspace
+- `update.js` - Update all repositories to latest
+- `build.js` - Build projects in dependency order
+- `test.js` - Run tests across all projects
+- `status.js` - Show detailed status of all repos
+- `clean.js` - Clean build artifacts and temp files
+
+## Best Practices for AI Assistants
+
+### 🚨 CRITICAL: Build Architecture Compliance
+1. **NEVER edit built artifacts** - Only edit source files (.ts, .tsx, .jsx)
+2. **Identify file types first** - Check extension before making any edits
+3. **Build after source changes** - Always rebuild before testing
+4. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
+
+### When Working with This Codebase
+1. **Understand the multi-repo pattern** - Don't expect source code here
+2. **Use orchestration scripts** - Don't manually clone repos
+3. **Respect the build order** - Dependencies matter
+4. **Check status before changes** - Use `npm run status`
+5. **Follow build architecture rules** - See Universal Build Architecture section above
+
+### When Making Changes
+1. **Verify file type first** - Source (.ts) vs Built (.js) artifacts
+2. **Edit source files only** - Never touch .js/.cjs/.mjs files
+3. **Build immediately after editing** - Ensure artifacts are updated
+4. **Test changes in workspace** before suggesting
+5. **Consider cross-project impact** of modifications  
+6. **Update documentation** when changing workflows
+7. **Verify security** - no sensitive data exposure
+
+---
+
+**Important for AI Assistants**: This is a workspace orchestrator, not a traditional codebase. Focus on repository management, build coordination, and development workflow rather than application logic.
+
+The power is in the unified development experience across independent repositories.
+
+---
+*Generated: {{timestamp}} using @akaoio/composer*

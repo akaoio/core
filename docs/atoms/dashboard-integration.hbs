@@ -1,0 +1,56 @@
+## Real-time Dashboard Integration
+
+### Dashboard Architecture
+The composer-based dashboard provides:
+- **Big Picture View**: System-wide coordination status
+- **Detail Drill-down**: Individual agent activities
+- **Human & AI Readable**: Structured for both interfaces
+- **Auto-updating**: Regenerated every 30 seconds via composer watch
+
+### Dashboard Files Structure
+```
+tmp/teams/dashboard/
+├── current-state.md        # Main dashboard (composer-generated)
+├── big-picture.md          # High-level system overview
+├── agent-activities/       # Individual agent feeds
+│   ├── {{AGENT_SESSION_ID}}/
+│   │   ├── current.md      # Current activity
+│   │   ├── recent.md       # Last 10 actions
+│   │   └── status.md       # Agent status
+│   └── [other-agents]/
+├── team-summaries/
+│   ├── {{TEAM_ID}}.md      # Team coordination status
+│   └── [other-teams].md
+└── system-health.md        # Overall system health
+```
+
+### Mandatory Dashboard Checks
+Every agent MUST perform these dashboard checks:
+
+1. **Before Starting Any Task**:
+   ```bash
+   cat tmp/teams/dashboard/current-state.md
+   cat tmp/teams/dashboard/team-summaries/{{TEAM_ID}}.md
+   ```
+
+2. **Every 3 Actions**:
+   ```bash
+   composer watch --update-agent-feed --agent-id="$AGENT_SESSION_ID"
+   ```
+
+3. **Before Major Decisions**:
+   ```bash
+   cat tmp/teams/dashboard/big-picture.md
+   grep "{{TEAM_ID}}" tmp/teams/dashboard/system-health.md
+   ```
+
+### Dashboard Update Protocol
+```bash
+# Update your agent's dashboard entry
+mkdir -p tmp/teams/dashboard/agent-activities/${AGENT_SESSION_ID}
+echo "[$(date)] Currently: [current activity]" > tmp/teams/dashboard/agent-activities/${AGENT_SESSION_ID}/current.md
+echo "[$(date)] Status: [detailed status]" > tmp/teams/dashboard/agent-activities/${AGENT_SESSION_ID}/status.md
+
+# Trigger dashboard regeneration
+touch tmp/teams/dashboard/.needs-update
+```

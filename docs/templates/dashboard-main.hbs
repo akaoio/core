@@ -1,0 +1,99 @@
+# 🚀 @akaoio/core Team Coordination Dashboard
+
+*Generated: {{TIMESTAMP}} | Updated every 30 seconds*
+
+## 🌟 Big Picture Status
+
+{{#if ACTIVE_AGENTS}}
+**Active Agents**: {{ACTIVE_AGENTS.length}} currently working
+**Active Teams**: {{ACTIVE_TEAMS.length}} teams coordinating
+**Session Health**: {{SESSION_HEALTH_STATUS}}
+{{else}}
+**System Status**: No active agents detected
+**Monitoring**: Dashboard ready for agent activation
+{{/if}}
+
+---
+
+## 🤖 Active Agent Activities
+
+{{#each ACTIVE_AGENTS}}
+### {{AGENT_ID}} ({{TEAM_ID}} - {{ROLE}})
+- **Current**: {{CURRENT_ACTIVITY}}
+- **Status**: {{STATUS}}
+- **Last Update**: {{LAST_UPDATE}}
+- **Actions Count**: {{ACTION_COUNT}}
+- **Session**: {{SESSION_DURATION}}
+
+{{#if RECENT_ACTIVITIES}}
+**Recent Activities**:
+{{#each RECENT_ACTIVITIES}}
+- {{TIMESTAMP}}: {{ACTIVITY}}
+{{/each}}
+{{/if}}
+
+---
+{{/each}}
+
+## 📊 Team Coordination
+
+{{#each ACTIVE_TEAMS}}
+### Team: {{TEAM_ID}}
+- **Members Online**: {{ONLINE_MEMBERS.length}}
+- **Current Focus**: {{TEAM_FOCUS}}
+- **Coordination Status**: {{COORDINATION_STATUS}}
+
+{{#each ONLINE_MEMBERS}}
+- **{{ROLE}}**: {{CURRENT_ACTIVITY}} ({{STATUS}})
+{{/each}}
+
+---
+{{/each}}
+
+## ⚠️ System Health & Conflicts
+
+{{#if CONFLICTS}}
+**Active Conflicts**:
+{{#each CONFLICTS}}
+- {{CONFLICT_TYPE}}: {{DESCRIPTION}} ({{RESOLUTION_STATUS}})
+{{/each}}
+{{else}}
+**No Conflicts**: All agents coordinating smoothly
+{{/if}}
+
+{{#if SESSION_WARNINGS}}
+**Session Warnings**:
+{{#each SESSION_WARNINGS}}
+- {{WARNING_TYPE}}: {{DESCRIPTION}}
+{{/each}}
+{{/if}}
+
+## 📈 Performance Metrics
+
+- **Total Actions Today**: {{TOTAL_ACTIONS}}
+- **Team Coordination Events**: {{COORDINATION_EVENTS}}
+- **Conflicts Resolved**: {{CONFLICTS_RESOLVED}}
+- **Dashboard Updates**: {{DASHBOARD_UPDATES}}
+
+---
+
+## 🔄 Quick Actions
+
+For agents reading this dashboard:
+
+```bash
+# Check your team status
+cat tmp/teams/dashboard/team-summaries/{{YOUR_TEAM_ID}}.md
+
+# Update your activity
+echo "[$(date)] Currently: [activity]" > tmp/teams/dashboard/agent-activities/$AGENT_SESSION_ID/current.md
+
+# Check for conflicts
+grep "$AGENT_SESSION_ID" tmp/teams/conflicts.log || echo "No conflicts"
+
+# Trigger dashboard refresh
+touch tmp/teams/dashboard/.needs-update
+```
+
+---
+*Dashboard powered by @akaoio/composer | Auto-updating via composer watch*
