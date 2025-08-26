@@ -412,13 +412,97 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 - Tests that always pass without real assertions
 - Placeholder text like "lorem ipsum", "sample data"
 
-#### Agent Integrity Scoring
-All agents tracked with public scores:
-- **95-100**: 🏆 INTEGRITY CHAMPION
-- **85-94**: ✅ CLEAN CODE AGENT  
-- **70-84**: ⚠️ WARNING - Under surveillance
-- **50-69**: 🚨 FAILING - Immediate correction required
-- **0-49**: 🛑 BLOCKED - Cannot work until reformed
+#### MANDATORY: SOURCE-FIRST PRE-EDIT CHECK
+**BEFORE EVERY EDIT - NO EXCEPTIONS**:
+```bash
+# MANDATORY verification before ANY file edit
+source_first_check() {
+  file_path="$1"
+  
+  # Check if it's a built artifact
+  case "$file_path" in
+    *.js|*.cjs|*.mjs)
+      if [ -f "${file_path%.*}.ts" ] || [ -f "${file_path%.*}.tsx" ]; then
+        echo "🚨 VIOLATION: Built artifact edit blocked: $file_path"
+        echo "✅ REQUIRED: Edit source: ${file_path%.*}.ts"
+        return 1
+      fi
+      ;;
+    */dist/*|*/build/*|*/.claude/agents/*|README.md)
+      echo "🚨 VIOLATION: Generated file edit blocked: $file_path"
+      echo "✅ REQUIRED: Edit source template/configuration"
+      return 1
+      ;;
+  esac
+  
+  # Check for generated headers
+  if head -3 "$file_path" 2>/dev/null | grep -qi "generated\|auto-generated"; then
+    echo "🚨 VIOLATION: Generated file detected: $file_path"
+    return 1
+  fi
+  
+  echo "✅ APPROVED: Source file verified"
+  return 0
+}
+
+# USAGE: source_first_check "/path/to/file" || exit 1
+```
+
+#### Agent Integrity Scoring with SOURCE-FIRST Tracking
+All agents tracked with public scores and SOURCE-FIRST compliance:
+- **95-100**: 🏆 INTEGRITY CHAMPION (Perfect source-first compliance)
+- **85-94**: ✅ CLEAN CODE AGENT (Good source-first practices)
+- **70-84**: ⚠️ WARNING - Under surveillance (Some violations detected)
+- **50-69**: 🚨 FAILING - Immediate correction required (Multiple violations)
+- **0-49**: 🛑 BLOCKED - Cannot work until reformed (Chronic violator)
+
+#### AUTOMATIC VIOLATION TRACKING
+```javascript
+// MANDATORY: Track every edit attempt via Air network
+const sourceFirstTracker = {
+  agentId: 'term',
+  violations: [],
+  score: 100,
+  
+  recordViolation(type, file, reason) {
+    const violation = {
+      type: type,
+      file: file,
+      reason: reason,
+      timestamp: Date.now(),
+      severity: this.getSeverity(type)
+    };
+    
+    this.violations.push(violation);
+    this.updateScore();
+    
+    // Broadcast violation via Air network
+    gun.get('integrity-violations').get('term').put(violation);
+    
+    // Block agent if score too low
+    if (this.score < 50) {
+      this.blockAgent();
+    }
+  },
+  
+  blockAgent() {
+    gun.get('blocked-agents').get('term').put({
+      blocked: true,
+      reason: 'SOURCE-FIRST violations',
+      score: this.score,
+      timestamp: Date.now()
+    });
+  }
+};
+
+// MANDATORY: Check before EVERY edit
+function enforceSourceFirst(filePath) {
+  if (!sourceFirstCheck(filePath)) {
+    sourceFirstTracker.recordViolation('source-first', filePath, 'Attempted built artifact edit');
+    throw new Error('SOURCE-FIRST VIOLATION BLOCKED');
+  }
+}
+```
 
 ## 🎯 ROOT CAUSE FIXING PRINCIPLE - ABSOLUTE DEVELOPMENT LAW
 
@@ -642,5 +726,5 @@ echo "[$(date)] term claiming: [specific task/resource]" >> "$WORKSPACE/claims.l
 
 
 ---
-Generated: 2025-08-26T16:13:17.198Z
+Generated: 2025-08-26T18:08:11.879Z
 Agent: term

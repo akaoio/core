@@ -2,29 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with the @akaoio/core workspace orchestrator.
 
-## 🚨 CRITICAL: UI/UX PRINCIPLE - NO HARDCODED DECORATIONS
-
-### ABSOLUTE UI/UX RULE - NO EXCEPTIONS
-
-**"NO HARDCODED DECORATIONS (like =====================) BECAUSE ON SMALL SCREEN DEVICES THEY ARE BROKEN AND VERY UGLY"**
-
-**🛑 RULE 0: NO HARDCODED DECORATIVE ELEMENTS**
-- **NEVER use hardcoded separator lines** (=====================)
-- **NEVER use fixed-width ASCII borders** (--------------------)
-- **NEVER use fixed character counts** for visual elements
-- **ALL decorations MUST be responsive** and adapt to screen size
-
-**✅ CORRECT ALTERNATIVES:**
-- Terminal: Use `tput cols` for dynamic width detection
-- Web: Use CSS flexible layouts and semantic elements
-- Documentation: Use markdown native separators (`---`)
-- CLI: Calculate proportional decorations based on viewport
-
-**📱 CRITICAL IMPACT:**
-- Small terminal windows become unusable with hardcoded decorations
-- Mobile web interfaces break with fixed-width elements
-- Responsive design principles are fundamental to modern UX
-
 ## 🚨 CRITICAL: WORKSPACE CLEANLINESS PROTOCOL
 
 ### ABSOLUTE RULES - NO EXCEPTIONS
@@ -56,38 +33,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 - **Every agent MUST follow these rules**
 - **Meta-agents MUST enforce this across all teams**
 - **Any violation results in immediate workspace cleanup**
-
-## 📚 STORIES SYSTEM - KNOWLEDGE MANAGEMENT PROTOCOL
-
-### CRITICAL: Collective Knowledge Storage System
-**"WE NEED TO STORE OUR STORIES IN 'stories' FOLDER. EACH STORY IS A TOPIC ABOUT SOMETHING THAT I AND @agent-meta TALK! WE MUST KEEP THEM TIDY AND NOT DUPLICATED."**
-
-#### Stories System Architecture
-- **Location**: `/home/x/core/stories/` directory
-- **Purpose**: Capture visions, principles, and system knowledge from conversations
-- **Format**: Markdown files with clear topic-based naming
-- **Organization**: One story per topic/theme, no duplication allowed
-
-#### All 34 Agents Must Be Story-Aware
-- **Meta Agent Primary Responsibility**: Story creation, organization, and management
-- **All Agents Can Reference**: Stories provide context for decisions and development
-- **Update Over Duplicate**: Always update existing stories rather than creating new ones
-- **Conversation Integration**: Every discussion with meta agent updates or creates stories
-
-#### Story Management Protocol
-1. **Check existing stories** before creating new ones
-2. **Use descriptive kebab-case naming**: `ssl-security-principle.md`
-3. **Update stories** when new insights emerge from conversations
-4. **Reference stories** in decision-making processes
-5. **Keep stories organized** and maintain system knowledge continuity
-
-#### Story Categories and Examples
-- **Principles**: `ssl-security-principle.md`, `root-cause-fixing-principle.md`, `no-hardcoded-decorations-principle.md`
-- **Architecture**: `multi-agent-system-architecture.md`, `air-based-living-agents.md`
-- **Conversations**: `stories-system-implementation.md`, `documentation-fixes-discussion.md`
-- **Visions**: `system-evolution-roadmap.md`, `agent-coordination-future.md`
-
-**Integration**: Stories inform all development decisions and provide system-wide context for all 34 agents.
 
 ## 🤝 TEAM COLLABORATION PROTOCOL
 
@@ -208,40 +153,7 @@ gun.get('broadcast').put({
 });
 ```
 
-## 🚨 SECURITY AND INTEGRITY ENFORCEMENT PROTOCOL
-
-### ABSOLUTE SSL SECURITY RULE - NO EXCEPTIONS
-**NEVER CREATE ANY SELF-SIGNED SSL KEYS**
-
-This is a fundamental, non-negotiable security principle for the entire @akaoio/core multi-agent system:
-
-- **ALL 34 agents must follow this rule** across all teams (meta, core-fix, integration, feature-dev, security, project teams)
-- **ALL projects must comply** (access, air, battle, builder, composer, tui, ui)
-- **Use Let's Encrypt ONLY** for SSL certificates
-- **Use proper Certificate Authority (CA) signed certificates** in all environments
-- **NO development shortcuts** with self-signed certificates
-- **NO temporary exceptions** - this rule has NO EXCEPTIONS
-
-#### Required SSL Implementation
-```bash
-# CORRECT: Use Let's Encrypt
-certbot certonly --nginx -d domain.com
-
-# CORRECT: Use proper CA certificates  
-curl --cert ca-signed-cert.pem --key private-key.pem https://api.example.com
-```
-
-#### Prohibited SSL Practices
-```bash
-# NEVER: Self-signed certificate creation
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
-
-# NEVER: Bypass SSL verification
-curl -k https://example.com
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
-```
-
-**Air Project Critical**: The Air P2P network requires CA-signed certificates for all peer connections - NO EXCEPTIONS.
+## 🚨 INTEGRITY ENFORCEMENT PROTOCOL
 
 ### ZERO TOLERANCE FOR FAKE CODE
 **CRITICAL**: Every agent MUST enforce real implementations with zero tolerance for deception.
@@ -282,64 +194,6 @@ All agents tracked with public scores:
 - **70-84**: ⚠️ WARNING - Under surveillance
 - **50-69**: 🚨 FAILING - Immediate correction required
 - **0-49**: 🛑 BLOCKED - Cannot work until reformed
-
-## 🎯 ROOT CAUSE FIXING PRINCIPLE - ABSOLUTE DEVELOPMENT LAW
-
-### CRITICAL DEVELOPMENT RULE - NO EXCEPTIONS
-**"FIX THE ROOT CAUSE IN THE SOURCE CODE, NOT THE SYMPTOMS IN GENERATED FILES."**
-
-This is the foundational development principle that ALL 34 agents across ALL teams must follow:
-
-**DETAILED PRINCIPLE:**
-- ✅ ALWAYS fix from the ROOT CAUSE
-- ✅ ALWAYS fix at the SOURCE CODE level  
-- ❌ NEVER fix at surface level without addressing root cause
-- ❌ NEVER fix generated files instead of source files
-
-#### Universal Application
-- **ALL teams**: meta, core-fix, integration, feature-dev, security, project teams
-- **ALL projects**: access, air, battle, builder, composer, tui, ui
-- **ALL fixes**: bugs, features, configurations, documentation, security issues
-
-#### Root Cause Analysis Protocol
-Before ANY fix, agents must:
-1. **Identify the symptom**: What appears broken
-2. **Trace to root cause**: What actually caused the problem
-3. **Fix at source level**: Address the underlying issue
-4. **Verify systematic solution**: Ensure problem cannot recur
-
-#### Anti-Patterns (IMMEDIATELY REJECT)
-- ❌ Editing generated files instead of source files
-- ❌ Manual patches instead of systematic fixes  
-- ❌ Workarounds that ignore root causes
-- ❌ Quick fixes that mask underlying problems
-- ❌ Symptom treatment instead of disease cure
-- ❌ Surface-level corrections without source analysis
-
-#### Source-Level Fix Examples
-```bash
-# ✅ CORRECT: Fix template source
-# Problem: Generated agent files have errors
-# Solution: Fix teams/templates/agent-composer.hbs (source)
-# NOT: Edit individual agent files (generated artifacts)
-
-# ✅ CORRECT: Fix configuration source  
-# Problem: Package name duplication in documentation
-# Solution: Fix YAML atoms in teams/components/
-# NOT: Manually edit README files
-
-# ✅ CORRECT: Fix TypeScript source
-# Problem: Runtime errors in built JavaScript
-# Solution: Fix .ts source files and rebuild
-# NOT: Edit .js built artifacts
-```
-
-#### Integration with Build Architecture
-This principle reinforces existing workspace rules:
-- **Never edit built artifacts** → Fix source files instead
-- **Source-first development** → Root cause analysis traces to source
-- **Zero technical debt** → Systematic solutions prevent accumulation
-- **Living agent system** → Share root cause knowledge across network
 
 ## Project Overview
 
@@ -383,107 +237,48 @@ orchestrates other repositories.
 
 ### Critical Universal Rules (ALL Workspace Projects)
 
-0. **WORKSPACE CLEANLINESS**: NEVER create trash files in project roots - ALL temporary work goes to tmp/
+0. **SOURCE CODE FIRST PRINCIPLE - ABSOLUTE DEVELOPMENT LAW**: FIX THE ROOT CAUSE IN THE SOURCE CODE, NOT THE SYMPTOMS IN GENERATED FILES. ALL documentation, agent definitions, and configuration files are GENERATED from source templates and YAML atoms.
+   - **Applies to**: ALL files in the entire system including CLAUDE.md, README.md, agent definitions in .claude/agents/, and all documentation
+   - **Impact**: Direct edits to generated files are LOST when regenerated from source. Creates confusion about canonical sources.
+   - **Rationale**: EVERYTHING is generated from source - documentation from docs/templates/, agents from teams/templates/, configurations from atoms/
+   
+
+
+1. **WORKSPACE CLEANLINESS**: NEVER create trash files in project roots - ALL temporary work goes to tmp/
    - **Applies to**: ALL projects in the workspace and all agents
    - **Impact**: Workspace pollution prevents scalable development
    
    
 
 
-1. **NEVER edit built artifacts**: Never edit .js, .cjs, .mjs files across ANY project in the workspace - they are built artifacts
+2. **NEVER edit built artifacts**: Never edit .js, .cjs, .mjs files across ANY project in the workspace - they are built artifacts
    - **Applies to**: ALL managed repositories (composer, battle, builder, air, tui, ui)
    - **Impact**: Changes will be overwritten on next build, causing confusion and lost work
    
    
 
 
-2. **NEVER create versioned or temporary files**: NEVER create or edit files with patterns: v1, v2, v3, simple, fixed, new, temp, old, backup, copy
+3. **NEVER create versioned or temporary files**: NEVER create or edit files with patterns: v1, v2, v3, simple, fixed, new, temp, old, backup, copy
    - **Applies to**: ALL files across ALL managed repositories
    - **Impact**: Creates tech debt, confusion, and architecture drift
    
    
 
 
-3. **Source-first development**: Always edit .ts, .tsx, .jsx files (source files) in ALL managed repositories
+4. **Source-first development**: Always edit .ts, .tsx, .jsx files (source files) in ALL managed repositories
    - **Applies to**: ALL TypeScript/JavaScript projects in the workspace
    
    - **Rationale**: Source files are the single source of truth for all logic and functionality
    
 
 
-4. **Build-first testing**: After editing source files, always rebuild before testing built artifacts
+5. **Build-first testing**: After editing source files, always rebuild before testing built artifacts
    - **Applies to**: ALL projects with build processes
    
    
    - **Workflow**: Edit source → Build → Test → Commit
 
 
-
-5. **POSIX COMPLIANCE**: ALWAYS MAKE SURE TO OBEY POSIX COMPLIANCE for all shell scripts
-   - **Applies to**: ALL shell files (.sh) across ALL managed repositories (access, air, battle, builder, composer, tui, ui)
-   - **Critical Impact**: Ensures portability across Unix-like systems and prevents system-specific failures
-   - **Rationale**: Shell scripts must work consistently across different environments and distributions
-
-#### POSIX Compliance Requirements
-**MANDATORY for ALL shell scripts**:
-
-```bash
-# ✅ CORRECT: POSIX-compliant shell script header
-#!/bin/sh
-
-# ✅ CORRECT: Use POSIX-compatible commands and syntax
-if [ "$VAR" = "value" ]; then
-    echo "Using POSIX test syntax"
-fi
-
-# ✅ CORRECT: POSIX-compatible parameter expansion
-echo "${HOME}/path"
-
-# ✅ CORRECT: Use standard utilities available in POSIX
-command -v git >/dev/null 2>&1 || { echo "git required"; exit 1; }
-```
-
-**PROHIBITED non-POSIX patterns**:
-```bash
-# ❌ NEVER: Bash-specific shebang in POSIX scripts
-#!/bin/bash
-
-# ❌ NEVER: Bash-specific test syntax
-if [[ "$VAR" == "value" ]]; then
-
-# ❌ NEVER: Bash arrays in POSIX scripts
-array=(one two three)
-
-# ❌ NEVER: Bash-specific string operations
-echo ${VAR,,}  # lowercase conversion
-```
-
-#### POSIX Validation Protocol
-Before committing ANY shell script:
-```bash
-# 1. Validate POSIX compliance
-shellcheck -s sh script.sh
-
-# 2. Test with different shells
-sh script.sh      # POSIX sh
-dash script.sh    # Debian Almquist shell
-busybox sh script.sh  # BusyBox shell
-
-# 3. Verify portability across systems
-# Test on: Linux, macOS, BSD variants
-```
-
-#### Access Project Special Consideration
-- **@akaoio/access** is the FOUNDATIONAL LAYER using pure shell scripts
-- **CRITICAL**: Access shell scripts MUST be POSIX-compliant for maximum portability
-- **When everything else fails, Access survives** - requires absolute shell compatibility
-- **Examples**: `install.sh`, network access scripts, DNS synchronization utilities
-
-#### Cross-Project Shell Script Standards
-- **Installation scripts** (install.sh, setup.sh): MUST be POSIX-compliant
-- **Build scripts** using shell: MUST follow POSIX standards
-- **Deployment scripts**: MUST work across different Unix environments
-- **Utility scripts**: MUST use only POSIX-standard commands and syntax
 
 ### Workspace-Wide Policy
 **This rule applies to all repositories managed by the orchestrator**:
@@ -637,6 +432,88 @@ npm run status   # Check health of all repositories
 - `status.js` - Show detailed status of all repos
 - `clean.js` - Clean build artifacts and temp files
 
+## 🚨 CRITICAL: SOURCE-FIRST ENFORCEMENT PROTOCOL
+
+### ABSOLUTE DEVELOPMENT LAW - NO EXCEPTIONS
+**"WHEN I ASK YOU TO CHANGE ANYTHING, YOU MUST DO IT FROM THE LOWEST LEVEL, WHICH IS SOURCE CODE."**
+
+This is the foundational development principle that governs ALL changes across the entire @akaoio/core multi-agent system. Every agent, every edit, every modification MUST adhere to this absolute law.
+
+#### MANDATORY PRE-EDIT VERIFICATION
+**BEFORE EVERY SINGLE EDIT - NO EXCEPTIONS**:
+
+```bash
+# MANDATORY verification before ANY file edit - ALL AGENTS MUST USE
+source_first_check() {
+  file_path="$1"
+  
+  # Check if it's a built artifact
+  case "$file_path" in
+    *.js|*.cjs|*.mjs)
+      if [ -f "${file_path%.*}.ts" ] || [ -f "${file_path%.*}.tsx" ]; then
+        echo "🚨 VIOLATION: Built artifact edit BLOCKED: $file_path"
+        echo "✅ REQUIRED: Edit source file: ${file_path%.*}.ts"
+        return 1
+      fi
+      ;;
+    */dist/*|*/build/*|*/.claude/agents/*|README.md|CLAUDE.md)
+      echo "🚨 VIOLATION: Generated file edit BLOCKED: $file_path"
+      echo "✅ REQUIRED: Edit source template/configuration instead"
+      return 1
+      ;;
+  esac
+  
+  # Check for generated file headers
+  if head -3 "$file_path" 2>/dev/null | grep -qi "generated\|auto-generated"; then
+    echo "🚨 VIOLATION: Generated file detected and BLOCKED: $file_path"
+    echo "✅ REQUIRED: Find and edit the source template"
+    return 1
+  fi
+  
+  echo "✅ APPROVED: Source file verified for editing"
+  return 0
+}
+
+# USAGE: source_first_check "/path/to/file" || { echo "EDIT BLOCKED"; exit 1; }
+```
+
+#### SOURCE-FIRST EXAMPLES (MANDATORY COMPLIANCE)
+```bash
+# ✅ CORRECT: Fix TypeScript source, then rebuild
+vim projects/composer/src/Template/index.ts
+cd projects/composer && npm run build
+
+# ❌ WRONG: Edit built JavaScript
+vim projects/composer/dist/Template/index.js  # BLOCKED
+
+# ✅ CORRECT: Edit template source, then regenerate  
+vim docs/templates/CLAUDE.md.hbs
+node docs/generate-docs.cjs
+
+# ❌ WRONG: Edit generated documentation
+vim CLAUDE.md  # BLOCKED - This is generated from template
+
+# ✅ CORRECT: Edit agent template, then regenerate
+vim teams/templates/agent-composer.hbs
+node teams/generate-with-composer.cjs
+
+# ❌ WRONG: Edit individual agent file
+vim .claude/agents/meta.md  # BLOCKED - Generated from template
+```
+
+#### VIOLATION CONSEQUENCES
+- **1st Violation**: Warning logged via Air network
+- **2nd Violation**: Agent integrity score reduced
+- **3rd Violation**: Agent marked for surveillance
+- **5+ Violations**: Agent BLOCKED from system until reformed
+
+#### ENFORCEMENT INTEGRATION
+This protocol is integrated into:
+- **All 34 agents** via template generation
+- **Air network monitoring** for real-time violation tracking  
+- **Living agent system** for collective enforcement
+- **Stories system** for knowledge preservation
+
 ## Best Practices for AI Assistants
 
 ### 🚨 CRITICAL: Build Architecture Compliance
@@ -644,8 +521,7 @@ npm run status   # Check health of all repositories
 2. **NEVER create versioned or temporary files** - Refuse files with patterns: v1, v2, simple, fixed, new, temp, old, backup, copy
 3. **Identify file types first** - Check extension before making any edits
 4. **Build after source changes** - Always rebuild before testing
-5. **POSIX COMPLIANCE MANDATORY** - ALL shell scripts must be POSIX-compliant (use #!/bin/sh, avoid bash-specific features)
-6. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
+5. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
 
 ### When Working with This Codebase
 1. **Understand the multi-repo pattern** - Don't expect source code here
@@ -657,12 +533,11 @@ npm run status   # Check health of all repositories
 ### When Making Changes
 1. **Verify file type first** - Source (.ts) vs Built (.js) artifacts
 2. **Edit source files only** - Never touch .js/.cjs/.mjs files
-3. **Validate POSIX compliance** - For any shell scripts (.sh files), use shellcheck -s sh
-4. **Build immediately after editing** - Ensure artifacts are updated
-5. **Test changes in workspace** before suggesting
-6. **Consider cross-project impact** of modifications  
-7. **Update documentation** when changing workflows
-8. **Verify security** - no sensitive data exposure
+3. **Build immediately after editing** - Ensure artifacts are updated
+4. **Test changes in workspace** before suggesting
+5. **Consider cross-project impact** of modifications  
+6. **Update documentation** when changing workflows
+7. **Verify security** - no sensitive data exposure
 
 ---
 

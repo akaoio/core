@@ -4,6 +4,23 @@ description: |
   Fundamental build architecture rules that apply to ALL repositories managed by the @akaoio/core workspace orchestrator.
 
 universal_rules:
+  - rule: "SOURCE CODE FIRST PRINCIPLE - ABSOLUTE DEVELOPMENT LAW"
+    description: "FIX THE ROOT CAUSE IN THE SOURCE CODE, NOT THE SYMPTOMS IN GENERATED FILES. ALL documentation, agent definitions, and configuration files are GENERATED from source templates and YAML atoms."
+    applies_to: "ALL files in the entire system including CLAUDE.md, README.md, agent definitions in .claude/agents/, and all documentation"
+    violation_impact: "Direct edits to generated files are LOST when regenerated from source. Creates confusion about canonical sources."
+    rationale: "EVERYTHING is generated from source - documentation from docs/templates/, agents from teams/templates/, configurations from atoms/"
+    enforcement: "CRITICAL - agents must trace back to source templates/atoms and update those instead"
+    examples:
+      - "❌ Edit CLAUDE.md directly → ✅ Edit docs/templates/CLAUDE.md.hbs + docs/atoms/*.yaml"
+      - "❌ Edit .claude/agents/meta.md → ✅ Edit teams/templates/agent-composer.hbs + .claude/team.config.yaml"
+      - "❌ Edit README.md directly → ✅ Edit docs/templates/README.md.hbs + project atoms"
+      - "❌ Edit generated documentation → ✅ Edit source atoms and regenerate"
+    regeneration_commands:
+      - "For CLAUDE.md: node projects/composer/dist/cli/index.js"
+      - "For agents: node teams/generate-with-composer.cjs"
+      - "For README.md: node projects/composer/dist/cli/index.js"
+    meta_principle: "Even this YAML file defines rules that get templated into CLAUDE.md - meta-level source control"
+    
   - rule: "WORKSPACE CLEANLINESS"
     description: "NEVER create trash files in project roots - ALL temporary work goes to tmp/"
     applies_to: "ALL projects in the workspace and all agents"

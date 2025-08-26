@@ -284,6 +284,88 @@ npm run status   # Check health of all repositories
 - `status.js` - Show detailed status of all repos
 - `clean.js` - Clean build artifacts and temp files
 
+## 🚨 CRITICAL: SOURCE-FIRST ENFORCEMENT PROTOCOL
+
+### ABSOLUTE DEVELOPMENT LAW - NO EXCEPTIONS
+**"WHEN I ASK YOU TO CHANGE ANYTHING, YOU MUST DO IT FROM THE LOWEST LEVEL, WHICH IS SOURCE CODE."**
+
+This is the foundational development principle that governs ALL changes across the entire @akaoio/core multi-agent system. Every agent, every edit, every modification MUST adhere to this absolute law.
+
+#### MANDATORY PRE-EDIT VERIFICATION
+**BEFORE EVERY SINGLE EDIT - NO EXCEPTIONS**:
+
+```bash
+# MANDATORY verification before ANY file edit - ALL AGENTS MUST USE
+source_first_check() {
+  file_path="$1"
+  
+  # Check if it's a built artifact
+  case "$file_path" in
+    *.js|*.cjs|*.mjs)
+      if [ -f "${file_path%.*}.ts" ] || [ -f "${file_path%.*}.tsx" ]; then
+        echo "🚨 VIOLATION: Built artifact edit BLOCKED: $file_path"
+        echo "✅ REQUIRED: Edit source file: ${file_path%.*}.ts"
+        return 1
+      fi
+      ;;
+    */dist/*|*/build/*|*/.claude/agents/*|README.md|CLAUDE.md)
+      echo "🚨 VIOLATION: Generated file edit BLOCKED: $file_path"
+      echo "✅ REQUIRED: Edit source template/configuration instead"
+      return 1
+      ;;
+  esac
+  
+  # Check for generated file headers
+  if head -3 "$file_path" 2>/dev/null | grep -qi "generated\|auto-generated"; then
+    echo "🚨 VIOLATION: Generated file detected and BLOCKED: $file_path"
+    echo "✅ REQUIRED: Find and edit the source template"
+    return 1
+  fi
+  
+  echo "✅ APPROVED: Source file verified for editing"
+  return 0
+}
+
+# USAGE: source_first_check "/path/to/file" || { echo "EDIT BLOCKED"; exit 1; }
+```
+
+#### SOURCE-FIRST EXAMPLES (MANDATORY COMPLIANCE)
+```bash
+# ✅ CORRECT: Fix TypeScript source, then rebuild
+vim projects/composer/src/Template/index.ts
+cd projects/composer && npm run build
+
+# ❌ WRONG: Edit built JavaScript
+vim projects/composer/dist/Template/index.js  # BLOCKED
+
+# ✅ CORRECT: Edit template source, then regenerate  
+vim docs/templates/CLAUDE.md.hbs
+node docs/generate-docs.cjs
+
+# ❌ WRONG: Edit generated documentation
+vim CLAUDE.md  # BLOCKED - This is generated from template
+
+# ✅ CORRECT: Edit agent template, then regenerate
+vim teams/templates/agent-composer.hbs
+node teams/generate-with-composer.cjs
+
+# ❌ WRONG: Edit individual agent file
+vim .claude/agents/meta.md  # BLOCKED - Generated from template
+```
+
+#### VIOLATION CONSEQUENCES
+- **1st Violation**: Warning logged via Air network
+- **2nd Violation**: Agent integrity score reduced
+- **3rd Violation**: Agent marked for surveillance
+- **5+ Violations**: Agent BLOCKED from system until reformed
+
+#### ENFORCEMENT INTEGRATION
+This protocol is integrated into:
+- **All 34 agents** via template generation
+- **Air network monitoring** for real-time violation tracking  
+- **Living agent system** for collective enforcement
+- **Stories system** for knowledge preservation
+
 ## Best Practices for AI Assistants
 
 ### 🚨 CRITICAL: Build Architecture Compliance
