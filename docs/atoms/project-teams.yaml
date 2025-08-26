@@ -1,0 +1,139 @@
+# Project Teams Configuration
+# Each core project has its own dedicated team for focused development
+
+project_teams:
+  - id: access
+    name: "@akaoio/access"
+    description: "Pure shell network access layer - eternal infrastructure team"
+    purpose: "Maintain and evolve the foundational DNS synchronization system"
+    triggers:
+      - "team access"
+      - "access team"
+      - "dns"
+      - "network layer"
+    members:
+      - role: maintainer
+        specialization: "shell scripting, DNS systems, network protocols"
+      - role: guardian
+        specialization: "system stability, backwards compatibility, eternal infrastructure"
+      - role: optimizer
+        specialization: "performance tuning, shell optimization, resource efficiency"
+    
+  - id: composer
+    name: "@akaoio/composer"  
+    description: "Atomic documentation engine team"
+    purpose: "Build and maintain the template-based documentation generation system"
+    triggers:
+      - "team composer"
+      - "composer team"
+      - "documentation"
+      - "templates"
+    members:
+      - role: architect
+        specialization: "template engine design, Handlebars processing, YAML parsing"
+      - role: developer
+        specialization: "feature implementation, template rendering, data composition"
+      - role: integrator
+        specialization: "atom integration, import resolution, circular dependency handling"
+
+  - id: battle
+    name: "@akaoio/battle"
+    description: "Universal terminal testing framework team"
+    purpose: "Develop and maintain real PTY testing capabilities"
+    triggers:
+      - "team battle"
+      - "battle team"
+      - "testing"
+      - "pty"
+    members:
+      - role: architect
+        specialization: "PTY architecture, terminal emulation, test framework design"
+      - role: developer
+        specialization: "test implementation, assertion library, terminal control"
+      - role: validator
+        specialization: "test coverage, cross-platform testing, regression prevention"
+
+  - id: builder
+    name: "@akaoio/builder"
+    description: "Universal TypeScript build framework team"
+    purpose: "Maintain multi-format compilation and build tooling"
+    triggers:
+      - "team builder"
+      - "builder team"
+      - "build"
+      - "compilation"
+    members:
+      - role: architect
+        specialization: "build system design, esbuild/tsup configuration, multi-format output"
+      - role: developer
+        specialization: "build features, watch mode, configuration management"
+      - role: optimizer
+        specialization: "build performance, bundle size optimization, tree shaking"
+
+  - id: air
+    name: "@akaoio/air"
+    description: "Distributed P2P database team"
+    purpose: "Develop and maintain the Living Agent System communication layer"
+    triggers:
+      - "team air"
+      - "air team"
+      - "p2p"
+      - "gun database"
+    members:
+      - role: architect
+        specialization: "P2P architecture, GUN database, distributed systems"
+      - role: developer
+        specialization: "real-time sync, agent communication, event propagation"
+      - role: guardian
+        specialization: "data integrity, network security, consensus protocols"
+
+  - id: tui
+    name: "@akaoio/tui"
+    description: "Terminal UI framework team"
+    purpose: "Build and maintain the terminal user interface components"
+    triggers:
+      - "team tui"
+      - "tui team"
+      - "terminal ui"
+      - "cli interface"
+    members:
+      - role: designer
+        specialization: "UI/UX design, component architecture, keyboard navigation"
+      - role: developer
+        specialization: "component implementation, state management, ANSI rendering"
+      - role: accessibility
+        specialization: "screen reader support, keyboard shortcuts, usability"
+
+  - id: ui
+    name: "@akaoio/ui"
+    description: "Vanilla JavaScript UI framework team"
+    purpose: "Develop zero-dependency web components and CSS-in-JS system"
+    triggers:
+      - "team ui"
+      - "ui team"
+      - "web components"
+      - "frontend"
+    members:
+      - role: architect
+        specialization: "Web Components, Shadow DOM, CSS-in-JS architecture"
+      - role: developer
+        specialization: "component development, vanilla JavaScript, ES modules"
+      - role: designer
+        specialization: "theming system, responsive design, component styling"
+
+# Team coordination patterns
+coordination:
+  cross_team:
+    - description: "When multiple projects need integration"
+    - protocol: "Teams coordinate through integration team"
+    - example: "UI needs to integrate with Air for real-time updates"
+  
+  meta_oversight:
+    - description: "Meta team oversees all project teams"
+    - protocol: "Meta orchestrator can activate any project team"
+    - example: "System-wide build improvements across all projects"
+
+  living_agents:
+    - description: "All project teams connect via Air/GUN"
+    - protocol: "Real-time coordination through port 8765"
+    - example: "Builder team notifies all teams of new build features"

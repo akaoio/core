@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# INTEGRITY ENFORCEMENT PRE-COMMIT HOOK
+# Blocks commits containing fake code patterns
+
+echo "🔍 Running integrity enforcement scan..."
+
+# Run integrity scanner
+node scripts/integrity-scanner.cjs . 
+SCAN_RESULT=$?
+
+if [ $SCAN_RESULT -ne 0 ]; then
+    echo ""
+    echo "🚨 COMMIT BLOCKED: Integrity violations detected!"
+    echo "🛑 Fix all fake code before committing."
+    echo ""
+    echo "Common violations:"
+    echo "  • Fake tests (expect(true).toBe(true))"
+    echo "  • TODO/FIXME comments"
+    echo "  • Placeholder implementations"
+    echo "  • Mock abuse"
+    echo ""
+    echo "Run 'node scripts/integrity-scanner.cjs .' for details"
+    echo "View 'INTEGRITY-DASHBOARD.md' for full report"
+    echo ""
+    exit 1
+fi
+
+# Generate updated dashboard
+echo "📊 Updating integrity dashboard..."
+node scripts/integrity-dashboard.cjs
+
+echo "✅ Integrity scan passed - commit allowed"
+exit 0

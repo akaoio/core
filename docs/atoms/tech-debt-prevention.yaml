@@ -1,0 +1,114 @@
+name: tech-debt-prevention
+title: Tech Debt Prevention Rules
+description: |
+  Critical rules to prevent technical debt and maintain system cleanliness across ALL @akaoio repositories.
+
+strict_naming_conventions:
+  - rule: "NO versioned or temporary file names"
+    description: "NEVER create or edit files with patterns: v1, v2, v3, simple, fixed, new, temp, old, backup, copy"
+    examples:
+      prohibited:
+        - "component-v1.ts"
+        - "api-v2.js" 
+        - "utils-simple.ts"
+        - "handler-fixed.js"
+        - "service-new.ts"
+        - "config-old.json"
+        - "backup-data.ts"
+        - "temp-file.js"
+        - "copy-of-module.ts"
+      allowed:
+        - "component.ts"
+        - "api.js"
+        - "utils.ts" 
+        - "handler.js"
+        - "service.ts"
+        - "config.json"
+        - "data.ts"
+        - "module.ts"
+    
+  - rule: "Use semantic, descriptive names"
+    description: "File names must clearly describe their purpose and functionality"
+    rationale: "Prevents confusion and improves maintainability"
+
+file_lifecycle_management:
+  - rule: "Replace, don't version"
+    description: "When updating files, replace the original - never create versioned copies"
+    workflow: "Edit in place → Test → Commit → Deploy"
+    
+  - rule: "Delete obsolete files immediately"
+    description: "Remove unused files as soon as they become redundant"
+    rationale: "Prevents accumulation of dead code and confusion"
+
+enforcement_levels:
+  - level: "CRITICAL"
+    scope: "ALL @akaoio repositories"
+    enforcement: "Hard block - agents must refuse to create these files"
+    
+  - level: "ARCHITECTURE_DRIFT"
+    impact: "Versioned files lead to unclear system state"
+    consequence: "Multiple sources of truth causing integration failures"
+    
+  - level: "MAINTENANCE_BURDEN"
+    impact: "Accumulation of tech debt makes system unmaintainable" 
+    consequence: "Development velocity decreases over time"
+
+detection_patterns:
+  file_patterns:
+    - pattern: "*-v[0-9]*"
+      description: "Files with version numbers"
+    - pattern: "*-simple*"
+      description: "Files marked as 'simple' variants"
+    - pattern: "*-fixed*"
+      description: "Files marked as 'fixed' variants"
+    - pattern: "*-new*"
+      description: "Files marked as 'new' variants"
+    - pattern: "*-old*"
+      description: "Files marked as 'old' variants"
+    - pattern: "*-temp*"
+      description: "Temporary files"
+    - pattern: "*-backup*"
+      description: "Backup files"
+    - pattern: "*-copy*"
+      description: "Copy files"
+
+agent_instructions:
+  mandatory_checks:
+    - check: "Scan for prohibited patterns before any file operations"
+      action: "Refuse to create files matching prohibited patterns"
+      
+    - check: "When asked to create versioned files, suggest proper names instead"
+      action: "Propose semantic, descriptive alternatives"
+      
+    - check: "During file cleanup, identify and remove versioned files"
+      action: "Clean up existing tech debt when encountered"
+
+system_integration:
+  build_process:
+    - "Build tools must reject files with prohibited patterns"
+    - "CI/CD pipelines must fail on detection of versioned files"
+    
+  documentation:
+    - "All documentation must reflect this principle"
+    - "Templates must enforce these naming conventions"
+    
+  agent_training:
+    - "Every agent must understand and enforce these rules"
+    - "No exceptions allowed regardless of context"
+
+rationale:
+  why_critical: |
+    The @akaoio system demands extreme precision and cleanliness. Versioned files create:
+    - Multiple sources of truth
+    - Confusion about which file is canonical
+    - Architecture drift over time
+    - Maintenance burden
+    - Integration failures
+    
+  system_philosophy: |
+    @akaoio follows principles of:
+    - Single source of truth
+    - Clean, semantic naming
+    - Immediate cleanup of obsolete code
+    - Zero tolerance for technical debt
+    - Consistent architecture across all repositories

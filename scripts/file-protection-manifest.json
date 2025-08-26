@@ -1,0 +1,162 @@
+{
+  "critical_infrastructure_files": {
+    "description": "Registry of critical files that must never be accidentally deleted",
+    "version": "1.0.0",
+    "last_updated": "2025-08-26T09:45:50.000Z",
+    "categories": {
+      "test_infrastructure": {
+        "description": "Critical test files for CI/CD and validation",
+        "patterns": [
+          "**/*.battle.*",
+          "**/test-integration.battle.cjs",
+          "**/security-tests.battle.cjs",
+          "**/test-complete-coverage.battle.cjs",
+          "**/test-visual-ux.battle.cjs",
+          "**/test-lifecycle-complete.battle.cjs"
+        ],
+        "files": [
+          "/home/x/core/test-integration.battle.cjs",
+          "/home/x/core/security-tests.battle.cjs",
+          "/home/x/core/projects/composer/composer.battle.cjs",
+          "/home/x/core/projects/builder/builder.battle.cjs",
+          "/home/x/core/projects/air/test/battle/interactive.battle.ts",
+          "/home/x/core/projects/air/test/battle/cli.battle.ts",
+          "/home/x/core/projects/air/test/battle/bun-runtime.battle.ts",
+          "/home/x/core/projects/air/test/battle/scripts.battle.ts",
+          "/home/x/core/projects/air/test/battle/server.battle.ts",
+          "/home/x/core/projects/air/test/battle/performance.battle.ts",
+          "/home/x/core/projects/access/test/test-complete-coverage.battle.cjs",
+          "/home/x/core/projects/access/test/test-visual-ux.battle.cjs",
+          "/home/x/core/projects/access/test/test-lifecycle-complete.battle.cjs",
+          "/home/x/core/projects/tui/tests/battle/erp-system.battle.test.js",
+          "/home/x/core/projects/tui/tests/battle/visual-replay.battle.test.ts",
+          "/home/x/core/projects/tui/tests/battle/simple.battle.test.ts",
+          "/home/x/core/projects/tui/tests/battle/comprehensive.battle.test.ts",
+          "/home/x/core/projects/tui/tests/battle/examples-test.battle.js",
+          "/home/x/core/projects/tui/tests/battle/input.battle.test.ts",
+          "/home/x/core/projects/tui/tests/battle/integration-flows.battle.test.ts"
+        ]
+      },
+      "dependency_management": {
+        "description": "Package management and dependency configuration files",
+        "patterns": [
+          "**/package.json",
+          "**/package-lock.json",
+          "**/bun.lock",
+          "**/yarn.lock"
+        ],
+        "files": [
+          "/home/x/core/package.json",
+          "/home/x/core/projects/air/package.json",
+          "/home/x/core/projects/battle/package.json",
+          "/home/x/core/projects/composer/package.json",
+          "/home/x/core/projects/ui/package.json",
+          "/home/x/core/projects/builder/package.json",
+          "/home/x/core/projects/tui/package.json",
+          "/home/x/core/teams/agent-runtime/package.json"
+        ]
+      },
+      "configuration_files": {
+        "description": "Core build and configuration files",
+        "patterns": [
+          "**/tsconfig*.json",
+          "**/*config.*js",
+          "**/*config.*cjs",
+          "**/*config.*ts",
+          "**/builder.config.*",
+          "**/composer.config.*",
+          "**/.gitignore",
+          "**/.gitattributes"
+        ],
+        "files": [
+          "/home/x/core/projects/builder/tsconfig.json",
+          "/home/x/core/projects/builder/builder.config.js",
+          "/home/x/core/projects/composer/composer.config.cjs",
+          "/home/x/core/projects/composer/composer.doc.config.js",
+          "/home/x/core/projects/composer/composer.simple.config.js",
+          "/home/x/core/projects/composer/composer.unified.config.js",
+          "/home/x/core/projects/air/builder.config.js",
+          "/home/x/core/projects/air/builder.config.ts",
+          "/home/x/core/projects/air/composer.config.cjs",
+          "/home/x/core/projects/battle/builder.config.js",
+          "/home/x/core/projects/battle/composer.config.cjs"
+        ]
+      },
+      "workflow_automation": {
+        "description": "GitHub Actions and CI/CD workflows",
+        "patterns": [
+          "**/.github/workflows/**",
+          "**/.github/actions/**"
+        ],
+        "files": []
+      },
+      "agent_system": {
+        "description": "Multi-agent system configuration and templates",
+        "patterns": [
+          "**/.claude/team.config.yaml",
+          "**/teams/templates/**",
+          "**/.claude/agents/**",
+          "**/CLAUDE.md"
+        ],
+        "files": [
+          "/home/x/core/.claude/team.config.yaml",
+          "/home/x/core/teams/templates/agent-composer.hbs",
+          "/home/x/core/teams/templates/agent-atomic-v2.hbs",
+          "/home/x/core/teams/templates/agent-v2-sessionless.hbs",
+          "/home/x/core/teams/generate-with-composer.cjs",
+          "/home/x/core/teams/generate-dashboard.cjs",
+          "/home/x/core/CLAUDE.md"
+        ]
+      },
+      "documentation_system": {
+        "description": "Critical documentation and system files",
+        "patterns": [
+          "**/README.md",
+          "**/LICENSE",
+          "**/SECURITY*.md",
+          "**/docs/**/*.md"
+        ],
+        "files": [
+          "/home/x/core/README.md",
+          "/home/x/core/projects/air/README.md",
+          "/home/x/core/projects/battle/README.md",
+          "/home/x/core/projects/composer/README.md",
+          "/home/x/core/projects/ui/README.md",
+          "/home/x/core/projects/builder/README.md",
+          "/home/x/core/projects/tui/README.md"
+        ]
+      }
+    },
+    "protection_rules": {
+      "never_delete": {
+        "description": "Files that should never be deleted under any circumstances",
+        "patterns": [
+          "**/*.battle.*",
+          "**/package.json",
+          "**/.claude/team.config.yaml",
+          "**/CLAUDE.md",
+          "**/teams/templates/**",
+          "**/test-integration.battle.cjs",
+          "**/security-tests.battle.cjs"
+        ]
+      },
+      "confirm_before_delete": {
+        "description": "Files that require explicit confirmation before deletion",
+        "patterns": [
+          "**/tsconfig*.json",
+          "**/*config.*",
+          "**/README.md",
+          "**/LICENSE"
+        ]
+      },
+      "backup_before_modify": {
+        "description": "Files that should be backed up before modification",
+        "patterns": [
+          "**/*.battle.*",
+          "**/package.json",
+          "**/.claude/team.config.yaml"
+        ]
+      }
+    }
+  }
+}

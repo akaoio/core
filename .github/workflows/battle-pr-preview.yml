@@ -1,0 +1,269 @@
+name: Battle PR Preview & Testing
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [opened, synchronize, reopened]
+
+env:
+  NODE_VERSION: '18'
+  BUN_VERSION: 'latest'
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  pr-preview:
+    runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
+    outputs:
+      preview-url: ${{ steps.deploy.outputs.url }}
+      changed-projects: ${{ steps.changes.outputs.projects }}
+      
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Detect changes
+        id: changes
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD | grep "^projects/" | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+          echo "Changed projects: $CHANGED_FILES"
+          echo "projects=$CHANGED_FILES" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup workspace
+        run: npm run setup
+
+      - name: Build changed projects
+        if: steps.changes.outputs.projects != ''
+        run: |
+          echo "Building changed projects: ${{ steps.changes.outputs.projects }}"
+          npm run build
+
+      - name: Generate Battle preview
+        if: steps.changes.outputs.projects != ''
+        id: preview
+        run: |
+          mkdir -p battle-preview
+          
+          # Generate project status
+          echo "# Battle CI Preview for PR #${{ github.event.pull_request.number }}" > battle-preview/README.md
+          echo "" >> battle-preview/README.md
+          echo "## Changed Projects" >> battle-preview/README.md
+          echo "${{ steps.changes.outputs.projects }}" | tr ' ' '\n' | sed 's/^/- /' >> battle-preview/README.md
+          echo "" >> battle-preview/README.md
+          echo "## Build Status" >> battle-preview/README.md
+          
+          # Try to run quick tests
+          for project in ${{ steps.changes.outputs.projects }}; do
+            if [ -d "projects/$project" ]; then
+              echo "### $project" >> battle-preview/README.md
+              
+              cd "projects/$project"
+              if [ -f "package.json" ]; then
+                echo "- Package: $(cat package.json | jq -r '.name // "unknown"') v$(cat package.json | jq -r '.version // "unknown"')" >> ../../battle-preview/README.md
+                echo "- Description: $(cat package.json | jq -r '.description // "No description"')" >> ../../battle-preview/README.md
+                
+                # Quick health check
+                if npm run build > /dev/null 2>&1; then
+                  echo "- Build: ✅ Success" >> ../../battle-preview/README.md
+                else
+                  echo "- Build: ❌ Failed" >> ../../battle-preview/README.md
+                fi
+              fi
+              cd ../..
+              echo "" >> battle-preview/README.md
+            fi
+          done
+          
+          echo "preview-generated=true" >> $GITHUB_OUTPUT
+
+      - name: Upload preview artifacts
+        if: steps.preview.outputs.preview-generated == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: battle-preview-${{ github.event.pull_request.number }}
+          path: battle-preview/
+          retention-days: 7
+
+  battle-test-pr:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime: ['node', 'bun']
+        
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        if: matrix.runtime == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Bun
+        if: matrix.runtime == 'bun'
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          if [ "${{ matrix.runtime }}" = "bun" ]; then
+            bun install
+          else
+            npm ci
+          fi
+
+      - name: Setup workspace
+        run: npm run setup
+
+      - name: Build all projects
+        run: npm run build
+
+      - name: Install Battle and dependencies
+        run: |
+          # Install tsx globally for TypeScript support
+          if [ "${{ matrix.runtime }}" = "node" ]; then
+            npm install -g tsx
+          fi
+          
+          # Build and link Battle
+          cd projects/battle
+          if [ "${{ matrix.runtime }}" = "bun" ]; then
+            bun run build
+            bun link
+          else
+            npm run build
+            npm link
+          fi
+
+      - name: Run Battle integration tests
+        run: |
+          chmod +x test-integration.battle.cjs
+          battle test "./test-integration.battle.cjs" --timeout 300000
+
+      - name: Run security tests
+        run: |
+          chmod +x security-tests.battle.cjs
+          battle test "./security-tests.battle.cjs" --timeout 180000
+
+      - name: Generate test report
+        if: always()
+        run: |
+          mkdir -p pr-test-reports
+          
+          # Copy logs and reports
+          if [ -d "logs" ]; then
+            cp -r logs/* pr-test-reports/ 2>/dev/null || true
+          fi
+          
+          # Generate HTML reports from JSON replays
+          for replay in pr-test-reports/*.json; do
+            if [ -f "$replay" ]; then
+              battle replay export "$replay" --format html --output "${replay%.json}-${{ matrix.runtime }}.html" || true
+            fi
+          done
+          
+          # Create summary
+          echo "# Battle Test Report - ${{ matrix.runtime }}" > pr-test-reports/summary-${{ matrix.runtime }}.md
+          echo "" >> pr-test-reports/summary-${{ matrix.runtime }}.md
+          echo "- Runtime: ${{ matrix.runtime }}" >> pr-test-reports/summary-${{ matrix.runtime }}.md
+          echo "- PR: #${{ github.event.pull_request.number }}" >> pr-test-reports/summary-${{ matrix.runtime }}.md
+          echo "- Commit: ${{ github.event.pull_request.head.sha }}" >> pr-test-reports/summary-${{ matrix.runtime }}.md
+          echo "- Generated: $(date -u)" >> pr-test-reports/summary-${{ matrix.runtime }}.md
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-battle-reports-${{ matrix.runtime }}
+          path: pr-test-reports/
+          retention-days: 14
+
+  comment-pr:
+    needs: [pr-preview, battle-test-pr]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Create PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            let comment = `## 🎯 Battle CI/CD Results for PR #${{ github.event.pull_request.number }}\n\n`;
+            
+            // Add changed projects info
+            const changedProjects = '${{ needs.pr-preview.outputs.changed-projects }}';
+            if (changedProjects.trim()) {
+              comment += `### 📦 Changed Projects\n`;
+              comment += changedProjects.split(' ').map(p => `- ${p}`).join('\n') + '\n\n';
+            }
+            
+            // Add test results
+            comment += `### 🧪 Test Results\n`;
+            
+            const nodeResult = '${{ needs.battle-test-pr.result }}' === 'success' ? '✅' : '❌';
+            comment += `- Node.js Runtime: ${nodeResult}\n`;
+            comment += `- Bun Runtime: ${nodeResult}\n\n`;
+            
+            // Add artifacts info
+            comment += `### 📊 Test Artifacts\n`;
+            comment += `Battle test reports and replay files have been generated. `;
+            comment += `Check the "Actions" tab to download detailed logs and HTML replays.\n\n`;
+            
+            // Add preview info
+            if (changedProjects.trim()) {
+              comment += `### 🔍 Preview\n`;
+              comment += `A preview of the changes has been generated. `;
+              comment += `Download the \`battle-preview-${{ github.event.pull_request.number }}\` artifact for details.\n\n`;
+            }
+            
+            comment += `---\n`;
+            comment += `*Generated by Battle CI/CD • Commit: ${{ github.event.pull_request.head.sha }}*`;
+            
+            // Post comment
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  cleanup-pr:
+    needs: [pr-preview, battle-test-pr, comment-pr]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Cleanup PR workspace
+        run: |
+          echo "🧹 PR #${{ github.event.pull_request.number }} testing complete"
+          echo "Results have been posted to the PR and artifacts uploaded"

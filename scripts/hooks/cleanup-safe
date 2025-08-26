@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Safe cleanup with file protection
+echo "🛡️ Running protected cleanup..."
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+PROTECTION_SCRIPT="$SCRIPT_DIR/../file-protection-system.js"
+
+# Always run protection scan before cleanup
+node "$PROTECTION_SCRIPT" scan
+
+# Common safe cleanup operations
+find tmp/ -name "*.log" -mtime +7 -type f -delete 2>/dev/null || true
+find logs/ -name "*.log" -mtime +30 -type f -delete 2>/dev/null || true
+
+echo "✅ Protected cleanup completed"

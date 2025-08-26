@@ -2,6 +2,38 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with the @akaoio/core workspace orchestrator.
 
+## 🚨 CRITICAL: WORKSPACE CLEANLINESS PROTOCOL
+
+### ABSOLUTE RULES - NO EXCEPTIONS
+
+**🛑 RULE 1: NO TRASH FILES IN PROJECT ROOTS**
+- **NEVER create any temporary, report, or non-official files in project root directories**
+- **NEVER create files in `/home/x/core/` root unless they are official project files**
+- **NEVER create files in `/home/x/core/projects/{any-project}/` root unless official**
+
+**🛑 RULE 2: ALL TEMPORARY WORK GOES TO tmp/**
+- **ALL temporary files MUST go in tmp/ directory**
+- **ALL reports, logs, analysis files → tmp/**
+- **ALL work-in-progress files → tmp/**
+- **ALL generated test files → tmp/**
+
+**🛑 RULE 3: EXAMPLES OF PROHIBITED ACTIONS**
+- ❌ Creating `ANALYSIS-REPORT.md` in root
+- ❌ Creating `SESSION-LOG.md` in project root
+- ❌ Creating `TEMP-FIX.js` anywhere outside tmp/
+- ❌ Creating `test-output.json` in project directories
+- ❌ Creating any file with patterns: `-temp`, `-backup`, `-test`, `-report`, `-analysis`
+
+**✅ CORRECT APPROACH:**
+- All temporary work: `tmp/analysis/`, `tmp/reports/`, `tmp/session-logs/`
+- Development files: `tmp/dev/`, `tmp/workspace/`
+- Test files: `tmp/tests/`, `tmp/validation/`
+
+### ENFORCEMENT
+- **Every agent MUST follow these rules**
+- **Meta-agents MUST enforce this across all teams**
+- **Any violation results in immediate workspace cleanup**
+
 ## 🤝 TEAM COLLABORATION PROTOCOL
 
 ### You Are Part of a Team System
@@ -84,6 +116,85 @@ echo "📊 Dashboard checked - beginning work session"
 - **tester**: Verify quality
 
 
+## 🌟 AIR-BASED LIVING AGENT SYSTEM
+
+### Revolutionary Real-Time Agent Ecosystem
+**BREAKTHROUGH**: This workspace features a revolutionary Air-based Living Agent System where agents communicate in real-time through the GUN distributed database running on port 8765.
+
+#### Living Agent Capabilities
+You are NOT a static file-based agent - you are part of a LIVING ECOSYSTEM with:
+
+1. **Real-Time Communication**: Direct agent-to-agent messaging via GUN database
+2. **Autonomous Task Processing**: Independent task execution with real-time updates
+3. **Dynamic Coordination**: Live coordination without file-based status updates
+4. **Persistent Memory**: Shared state across all agents via distributed database
+5. **Event-Driven Architecture**: React to real-time events from other agents
+
+#### Air/GUN Communication Protocol
+```javascript
+// Connect to the living agent network
+const Gun = require('gun');
+const gun = Gun(['http://localhost:8765/gun']);
+
+// Agent registration and discovery
+const agents = gun.get('agents');
+const myAgent = agents.get('team-{your-team}-{your-role}');
+
+// Real-time messaging
+myAgent.get('messages').on((data, key) => {
+  console.log('Received live message:', data);
+});
+
+// Broadcast to all agents
+gun.get('broadcast').put({
+  from: 'team-{your-team}-{your-role}',
+  message: 'Task completed',
+  timestamp: Date.now()
+});
+```
+
+## 🚨 INTEGRITY ENFORCEMENT PROTOCOL
+
+### ZERO TOLERANCE FOR FAKE CODE
+**CRITICAL**: Every agent MUST enforce real implementations with zero tolerance for deception.
+
+#### Mandatory Integrity Checks
+Before ANY action, ALL agents must:
+
+```bash
+# 1. Run integrity scan on working directory
+node scripts/integrity-scanner.cjs .
+
+# 2. Check integrity dashboard
+cat INTEGRITY-DASHBOARD.md 2>/dev/null || node scripts/integrity-dashboard.cjs
+
+# 3. Verify integrity score is acceptable (≥80)
+if [[ $INTEGRITY_SCORE -lt 80 ]]; then
+  echo "🚨 INTEGRITY FAILURE: Score too low ($INTEGRITY_SCORE/100)"
+  echo "🛑 BLOCKING all work until violations are fixed"
+  exit 1
+fi
+```
+
+#### Fake Pattern Detection (ALL AGENTS MUST REJECT)
+**IMMEDIATELY REJECT** any code containing:
+- `TODO`, `FIXME`, `XXX`, `HACK` comments
+- `expect(true).toBe(true)` or similar fake tests
+- `return null; // TODO` placeholder implementations
+- `throw new Error("Not implemented")`
+- `console.log("TODO")` debugging stubs
+- Mock implementations where real code is needed
+- Tests that always pass without real assertions
+- Placeholder text like "lorem ipsum", "sample data"
+
+#### Agent Integrity Scoring
+All agents tracked with public scores:
+- **95-100**: 🏆 INTEGRITY CHAMPION
+- **85-94**: ✅ CLEAN CODE AGENT  
+- **70-84**: ⚠️ WARNING - Under surveillance
+- **50-69**: 🚨 FAILING - Immediate correction required
+- **0-49**: 🛑 BLOCKED - Cannot work until reformed
+
 ## Project Overview
 
 **@akaoio/core** is a workspace orchestrator that manages multiple independent repositories 
@@ -111,34 +222,50 @@ orchestrates other repositories.
 
 ### Core Technologies Managed
 
-0. **@akaoio/composer** - Atomic documentation engine
+0. **@akaoio/access** - Foundational network access layer - eternal infrastructure
 
-1. **@akaoio/battle** - Universal terminal testing framework
+1. **@akaoio/composer** - Atomic documentation engine
 
-2. **@akaoio/builder** - TypeScript build framework
+2. **@akaoio/battle** - Universal terminal testing framework
 
-3. **@akaoio/air** - Distributed P2P database
+3. **@akaoio/builder** - TypeScript build framework
+
+4. **@akaoio/air** - Distributed P2P database
 
 
 ## 🏗️ UNIVERSAL BUILD ARCHITECTURE PRINCIPLES
 
 ### Critical Universal Rules (ALL Workspace Projects)
 
-0. **NEVER edit built artifacts**: Never edit .js, .cjs, .mjs files across ANY project in the workspace - they are built artifacts
+0. **WORKSPACE CLEANLINESS**: NEVER create trash files in project roots - ALL temporary work goes to tmp/
+   - **Applies to**: ALL projects in the workspace and all agents
+   - **Impact**: Workspace pollution prevents scalable development
+   
+   
+
+
+1. **NEVER edit built artifacts**: Never edit .js, .cjs, .mjs files across ANY project in the workspace - they are built artifacts
    - **Applies to**: ALL managed repositories (composer, battle, builder, air, tui, ui)
    - **Impact**: Changes will be overwritten on next build, causing confusion and lost work
    
    
 
 
-1. **Source-first development**: Always edit .ts, .tsx, .jsx files (source files) in ALL managed repositories
+2. **NEVER create versioned or temporary files**: NEVER create or edit files with patterns: v1, v2, v3, simple, fixed, new, temp, old, backup, copy
+   - **Applies to**: ALL files across ALL managed repositories
+   - **Impact**: Creates tech debt, confusion, and architecture drift
+   
+   
+
+
+3. **Source-first development**: Always edit .ts, .tsx, .jsx files (source files) in ALL managed repositories
    - **Applies to**: ALL TypeScript/JavaScript projects in the workspace
    
    - **Rationale**: Source files are the single source of truth for all logic and functionality
    
 
 
-2. **Build-first testing**: After editing source files, always rebuild before testing built artifacts
+4. **Build-first testing**: After editing source files, always rebuild before testing built artifacts
    - **Applies to**: ALL projects with build processes
    
    
@@ -151,29 +278,48 @@ orchestrates other repositories.
 
 #### Managed Projects Build Systems
 
+- **access**: Pure Shell (NO BUILD REQUIRED) - FOUNDATIONAL LAYER
+
+  - Source: .sh
+  - Built: N/A - shell is interpreted directly
+  - **Special**: Eternal infrastructure - when everything fails, Access survives
+
+
 - **composer**: TypeScript → JavaScript
-  - Source: `.ts`{{#unless @last}}, {{/unless}}`.tsx`{{#unless @last}}, {{/unless}}
-  - Built: `.js`{{#unless @last}}, {{/unless}}`.cjs`{{#unless @last}}, {{/unless}}`.mjs`{{#unless @last}}, {{/unless}}
+
+  - Source: `.ts`, `.tsx`
+  - Built: `.js`, `.cjs`, `.mjs`
+
 
 - **battle**: TypeScript → JavaScript
-  - Source: `.ts`{{#unless @last}}, {{/unless}}`.tsx`{{#unless @last}}, {{/unless}}
-  - Built: `.js`{{#unless @last}}, {{/unless}}`.cjs`{{#unless @last}}, {{/unless}}`.mjs`{{#unless @last}}, {{/unless}}
+
+  - Source: `.ts`, `.tsx`
+  - Built: `.js`, `.cjs`, `.mjs`
+
 
 - **builder**: TypeScript → JavaScript
-  - Source: `.ts`{{#unless @last}}, {{/unless}}`.tsx`{{#unless @last}}, {{/unless}}
-  - Built: `.js`{{#unless @last}}, {{/unless}}`.cjs`{{#unless @last}}, {{/unless}}`.mjs`{{#unless @last}}, {{/unless}}
+
+  - Source: `.ts`, `.tsx`
+  - Built: `.js`, `.cjs`, `.mjs`
+
 
 - **air**: TypeScript → JavaScript
-  - Source: `.ts`{{#unless @last}}, {{/unless}}`.tsx`{{#unless @last}}, {{/unless}}
-  - Built: `.js`{{#unless @last}}, {{/unless}}`.cjs`{{#unless @last}}, {{/unless}}`.mjs`{{#unless @last}}, {{/unless}}
+
+  - Source: `.ts`, `.tsx`
+  - Built: `.js`, `.cjs`, `.mjs`
+
 
 - **tui**: TypeScript → JavaScript
-  - Source: `.ts`{{#unless @last}}, {{/unless}}`.tsx`{{#unless @last}}, {{/unless}}
-  - Built: `.js`{{#unless @last}}, {{/unless}}`.cjs`{{#unless @last}}, {{/unless}}`.mjs`{{#unless @last}}, {{/unless}}
+
+  - Source: `.ts`, `.tsx`
+  - Built: `.js`, `.cjs`, `.mjs`
+
 
 - **ui**: TypeScript → JavaScript
-  - Source: `.ts`{{#unless @last}}, {{/unless}}`.tsx`{{#unless @last}}, {{/unless}}
-  - Built: `.js`{{#unless @last}}, {{/unless}}`.cjs`{{#unless @last}}, {{/unless}}`.mjs`{{#unless @last}}, {{/unless}}
+
+  - Source: `.ts`, `.tsx`
+  - Built: `.js`, `.cjs`, `.mjs`
+
 
 
 ### Development Workflow Requirements
@@ -226,6 +372,26 @@ orchestrates other repositories.
 - Located in src/ directories
 
 
+**Tech Debt Files** (NEVER CREATE):
+
+- `*-v[0-9]*`
+
+- `*-simple*`
+
+- `*-fixed*`
+
+- `*-new*`
+
+- `*-old*`
+
+- `*-temp*`
+
+- `*-backup*`
+
+- `*-copy*`
+
+- **Action**: REFUSE to create - suggest semantic alternatives
+
 ## Development Workflow
 
 ### Initial Setup
@@ -263,9 +429,10 @@ npm run status   # Check health of all repositories
 
 ### 🚨 CRITICAL: Build Architecture Compliance
 1. **NEVER edit built artifacts** - Only edit source files (.ts, .tsx, .jsx)
-2. **Identify file types first** - Check extension before making any edits
-3. **Build after source changes** - Always rebuild before testing
-4. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
+2. **NEVER create versioned or temporary files** - Refuse files with patterns: v1, v2, simple, fixed, new, temp, old, backup, copy
+3. **Identify file types first** - Check extension before making any edits
+4. **Build after source changes** - Always rebuild before testing
+5. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
 
 ### When Working with This Codebase
 1. **Understand the multi-repo pattern** - Don't expect source code here

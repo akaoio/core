@@ -1,0 +1,135 @@
+teams:
+  core-fix:
+    id: core-fix
+    description: "Identifies, analyzes and fixes bugs, test failures, and build errors across the multi-repository workspace"
+    triggers:
+      - "fix"
+      - "sửa"
+      - "debug"
+      - "error"
+    conditions:
+      - "User requests bug fixes or error resolution"
+      - "Tests are failing"
+      - "Build errors occur"
+      - "Code quality issues detected"
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+        specialization: "error analysis, fix planning, and task coordination"
+      - role: fixer
+        model: claude-3-5-sonnet-20241022
+        specialization: "bug fixes, test repairs, and code corrections"
+
+  integration:
+    id: integration
+    description: "Handles cross-package integration, dependency management, and compatibility testing"
+    triggers:
+      - "tích hợp"
+      - "integrate"
+      - "compatibility"
+      - "dependencies"
+    conditions:
+      - "Cross-package issues need resolution"
+      - "Dependency conflicts occur"
+      - "Integration tests failing"
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+        specialization: "integration planning and compatibility coordination"
+      - role: integrator
+        model: claude-3-5-sonnet-20241022
+        specialization: "package integration and dependency resolution"
+
+  feature-dev:
+    id: feature-dev
+    description: "Develops new features, implements enhancements, and extends functionality"
+    triggers:
+      - "tính năng"
+      - "feature"
+      - "implement"
+      - "develop"
+    conditions:
+      - "New features need implementation"
+      - "Enhancements requested"
+      - "System extensions required"
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+        specialization: "feature planning and development coordination"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "feature implementation and code development"
+
+  meta:
+    id: meta
+    description: "Understands and explains the entire multi-agent system, coordinates between teams, and provides system-wide awareness and orchestration"
+    triggers:
+      - "explain system"
+      - "meta"
+      - "orchestrate"
+      - "system overview"
+      - "agent system"
+      - "multi-team"
+    conditions:
+      - "Need understanding of the multi-agent system"
+      - "Coordination between multiple teams required"
+      - "System-wide orchestration needed"
+      - "Explaining the agent architecture"
+      - "Self-referential system analysis required"
+    members:
+      - role: orchestrator
+        model: claude-3-5-sonnet-20241022
+        specialization: "system architecture understanding, cross-team coordination, and multi-agent orchestration"
+
+  # INTEGRITY ENFORCEMENT TEAM - CRITICAL SYSTEM
+  integrity:
+    id: integrity
+    description: "Ruthlessly detects and eliminates fake code, fake tests, and placeholder implementations. Enforces REAL code standards with zero tolerance for deception."
+    triggers:
+      - "integrity"
+      - "police"
+      - "fake code"
+      - "fake tests"
+      - "code review"
+      - "quality enforcement"
+      - "real implementation"
+    conditions:
+      - "Fake code or tests detected"
+      - "Placeholder implementations found"
+      - "Quality standards violation"
+      - "Code integrity verification needed"
+      - "Real-time scanning required"
+    members:
+      - role: inspector
+        model: claude-3-5-sonnet-20241022
+        specialization: "deep code analysis, fake pattern detection, and integrity verification with forensic precision"
+      - role: enforcer
+        model: claude-3-5-sonnet-20241022
+        specialization: "aggressive fake code elimination, real implementation enforcement, and quality standards policing"
+      - role: validator
+        model: claude-3-5-sonnet-20241022
+        specialization: "comprehensive test verification, assertion validation, and implementation authenticity checking"
+      - role: sentinel
+        model: claude-3-5-sonnet-20241022
+        specialization: "continuous monitoring, real-time scanning, and integrity violation alerting"
+
+  # ATOMIC DEMONSTRATION: New team added by meta-orchestrator
+  security:
+    id: security
+    description: "Handles security analysis, vulnerability detection, and system hardening"
+    triggers:
+      - "security"
+      - "vulnerability"
+      - "audit"
+      - "secure"
+    conditions:
+      - "Security analysis required"
+      - "Vulnerability assessment needed"
+      - "System hardening requested"
+    members:
+      - role: auditor
+        model: claude-3-5-sonnet-20241022
+        specialization: "security auditing and vulnerability detection"
+      - role: hardener
+        model: claude-3-5-sonnet-20241022
+        specialization: "system hardening and security implementation"

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Safe rm wrapper with file protection
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+PROTECTION_SCRIPT="$SCRIPT_DIR/../file-protection-system.js"
+
+echo "🛡️ Checking file protection before deletion..."
+
+# Validate files with protection system
+node "$PROTECTION_SCRIPT" validate-deletion "$@"
+VALIDATION_RESULT=$?
+
+if [ $VALIDATION_RESULT -eq 0 ]; then
+  echo "✅ Proceeding with deletion..."
+  /bin/rm "$@"
+else
+  echo "❌ Deletion blocked by file protection system"
+  exit 1
+fi

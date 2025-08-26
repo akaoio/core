@@ -1,0 +1,50 @@
+workspace_cleanliness:
+  title: "🚨 CRITICAL: WORKSPACE CLEANLINESS PROTOCOL"
+  priority: 1
+  enforcement: "absolute"
+  
+  absolute_rules:
+    - id: "no-trash-files"
+      title: "🛑 RULE 1: NO TRASH FILES IN PROJECT ROOTS"
+      rules:
+        - "NEVER create any temporary, report, or non-official files in project root directories"
+        - "NEVER create files in `/home/x/core/` root unless they are official project files"
+        - "NEVER create files in `/home/x/core/projects/{any-project}/` root unless official"
+    
+    - id: "tmp-only"
+      title: "🛑 RULE 2: ALL TEMPORARY WORK GOES TO tmp/"
+      rules:
+        - "ALL temporary files MUST go in tmp/ directory"
+        - "ALL reports, logs, analysis files → tmp/"
+        - "ALL work-in-progress files → tmp/"
+        - "ALL generated test files → tmp/"
+    
+    - id: "prohibited-actions"
+      title: "🛑 RULE 3: EXAMPLES OF PROHIBITED ACTIONS"
+      prohibited:
+        - "❌ Creating `ANALYSIS-REPORT.md` in root"
+        - "❌ Creating `SESSION-LOG.md` in project root"
+        - "❌ Creating `TEMP-FIX.js` anywhere outside tmp/"
+        - "❌ Creating `test-output.json` in project directories"
+        - "❌ Creating any file with patterns: `-temp`, `-backup`, `-test`, `-report`, `-analysis`"
+  
+  correct_approach:
+    title: "✅ CORRECT APPROACH:"
+    locations:
+      - "All temporary work: `tmp/analysis/`, `tmp/reports/`, `tmp/session-logs/`"
+      - "Development files: `tmp/dev/`, `tmp/workspace/`"
+      - "Test files: `tmp/tests/`, `tmp/validation/`"
+  
+  enforcement_rules:
+    title: "ENFORCEMENT"
+    rules:
+      - "Every agent MUST follow these rules"
+      - "Meta-agents MUST enforce this across all teams"
+      - "Any violation results in immediate workspace cleanup"
+  
+  build_architecture_integration:
+    position: 0
+    title: "WORKSPACE CLEANLINESS: NEVER create trash files in project roots - ALL temporary work goes to tmp/"
+    applies_to: "ALL projects in the workspace and all agents"
+    impact: "Workspace pollution prevents scalable development"
+    rule: "tmp/ for temporary files, root only for official project files"

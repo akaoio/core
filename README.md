@@ -1,233 +1,155 @@
 # @akaoio/core
 
-**AKAO.IO Core Technologies Workspace**
+> Workspace orchestrator for the AKAO.io ecosystem
 
-A workspace orchestrator for all @akaoio core technologies. This repository doesn't contain source code - it clones and manages the individual technology repositories as a unified development environment.
+[![Version](https://img.shields.io/npm/v/@akaoio/core.svg)](https://npmjs.org/package/@akaoio/core)
+[![License](https://img.shields.io/npm/l/@akaoio/core.svg)](https://github.com/akaoio/core/blob/main/LICENSE)
 
-## Quick Start
+## Overview
+
+**@akaoio/core** is a workspace orchestrator that manages multiple independent repositories 
+as a unified development environment. It does NOT contain source code - it clones and 
+orchestrates other repositories.
+
+
+## 🚀 Core Technologies
+
+
+### @akaoio/access
+- **Purpose**: Pure shell DNS synchronization - when everything fails, Access survives
+- **Description**: Foundational network access layer - eternal infrastructure
+
+### @akaoio/composer
+- **Purpose**: Generate all documentation from atomic pieces
+- **Description**: Atomic documentation engine
+
+### @akaoio/battle
+- **Purpose**: Test all projects with real PTY
+- **Description**: Universal terminal testing framework
+
+### @akaoio/builder
+- **Purpose**: Build all TypeScript projects
+- **Description**: TypeScript build framework
+
+### @akaoio/air
+- **Purpose**: P2P networking and data distribution
+- **Description**: Distributed P2P database
+
+
+## 📦 Installation
 
 ```bash
-# Clone the workspace orchestrator
+# Clone the orchestrator
 git clone https://github.com/akaoio/core.git
 cd core
 
-# Setup: Clone all core tech repos and build them
+# Setup all projects
 npm run setup
-
-# That's it! You now have a complete development environment.
 ```
 
-## What This Gives You
+## 🛠️ Development
 
-After running `npm run setup`, you'll have:
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run setup` | Clone and setup all repositories |
+| `npm run update` | Update all repositories to latest |
+| `npm run build` | Build all projects in dependency order |
+| `npm test` | Run all test suites |
+| `npm run status` | Check status of all repositories |
+| `npm run clean` | Clean build artifacts |
+
+### Project Structure
 
 ```
 core/
-├── projects/
-│   ├── composer/    # Atomic documentation engine
-│   ├── battle/      # Universal terminal testing framework  
-│   ├── builder/     # TypeScript build framework
-│   ├── air/         # Distributed P2P database
-│   ├── tui/         # Terminal UI framework
-│   └── ui/          # Web Components framework
-└── [workspace configuration files]
+├── projects/          # Managed repositories (gitignored)
+│   ├── composer/     # Documentation engine
+│   ├── battle/       # Testing framework
+│   ├── builder/      # Build system
+│   └── air/          # P2P database
+├── scripts/          # Orchestration scripts
+├── config/           # Configuration files
+├── .claude/          # AI assistant configuration
+│   ├── agents/       # Team agents
+│   └── team.config.yaml
+└── tmp/              # Temporary files
+    └── teams/        # Team workspaces
 ```
 
-- **Full workspace development** with `workspace:*` dependencies
-- **Instant cross-project testing** without publishing
-- **Unified build and test commands**
-- **Coordinated version management**
+## 🤖 AI Team System
 
-## Core Technologies
+The workspace includes an advanced multi-team agent system for coordinated development and issue resolution. Teams are configured via `.claude/agents/` and activated based on user needs.
 
-| Technology | Description | Repository |
-|------------|-------------|------------|
-| **composer** | Atomic document composition engine | [akaoio/composer](https://github.com/akaoio/composer) |
-| **battle** | Universal terminal testing framework | [akaoio/battle](https://github.com/akaoio/battle) |
-| **builder** | TypeScript build framework | [akaoio/builder](https://github.com/akaoio/builder) |
-| **air** | Distributed P2P database | [akaoio/air](https://github.com/akaoio/air) |
+## 🔧 Working with Projects
 
-## Commands
+Each project in `projects/` is an independent repository:
 
-### Setup & Management
+1. **Navigate to project**: `cd projects/composer`
+2. **Make changes**: Edit files normally
+3. **Build**: `npm run build`
+4. **Test**: `npm test`
+5. **Commit**: Use git in the project directory
+
+Changes are immediately available to other projects via workspace linking.
+
+## 📚 Documentation
+
+All documentation is auto-generated using @akaoio/composer:
+
+- **CLAUDE.md**: AI assistant guidance
+- **README.md**: This file
+- **Agent definitions**: `.claude/agents/*.md`
+
+To regenerate documentation:
 ```bash
-npm run setup     # Clone all repos, install deps, build everything
-npm run update    # Pull latest changes from all repos
-npm run clean     # Clean all build artifacts
-npm run status    # Show status of all repositories
-npm run sync      # Sync with ~/Projects directory (auto-detect changes)
-npm run sync:watch # Start continuous sync with file system watcher
+npx composer build
 ```
 
-### Development
+## 🧪 Testing
+
+All projects use @akaoio/battle for testing:
+
 ```bash
-npm run build     # Build all projects in dependency order
-npm run test      # Run all test suites
-npm run dev       # Setup + build (development mode)
-```
-
-### Publishing
-```bash
-npm run publish   # Coordinate publishing of all updated packages
-```
-
-## Development Workflow
-
-### Initial Setup
-1. Clone this workspace: `git clone https://github.com/akaoio/core.git`
-2. Run setup: `npm run setup`
-3. Start developing!
-
-### Daily Development
-```bash
-# Update all repositories to latest
-npm run update
-
-# Make changes in any project
-cd projects/battle/
-# edit files...
-npm run build
-
-# Test changes in another project immediately
-cd ../composer/
-npm test  # Uses latest battle via workspace:*
-
-# Build and test everything
-cd ../..
-npm run build
+# Test all projects
 npm test
+
+# Test specific project
+cd projects/composer && npm test
 ```
 
-### Cross-Project Fixes
-1. Edit source in `projects/{tech}/`
-2. Build that project: `npm run build` (in project dir)
-3. Test immediately in other projects - no publishing needed!
-4. Commit when ready: git workflows work normally
+## 🏗️ Building
 
-### Publishing Updates
+Projects are built using @akaoio/builder:
+
 ```bash
-# When ready to publish to npm
-npm run publish   # Coordinates version bumps and publishing
-```
-
-## Architecture
-
-### Repository Management
-- Individual repositories remain independent
-- Each can be developed/published separately  
-- Workspace provides unified development environment
-- No source code duplication
-
-### Dependency Management
-- `workspace:*` dependencies for cross-project references
-- Automatic resolution to local versions during development
-- Proper version resolution when published to npm
-
-### Build Order
-Projects build in dependency order:
-1. **builder** (no dependencies)
-2. **battle** (uses builder)
-3. **composer** (uses battle + builder) 
-4. **air** (uses battle)
-
-### Security
-- Sensitive files are git-ignored
-- No API keys or secrets in this repository
-- Each project manages its own secrets
-- `.env` files are excluded
-
-## Configuration
-
-### Repository Configuration (`config/repos.json`)
-Defines which repositories to clone, their dependencies, and build order.
-
-### Workspace Configuration  
-Standard npm workspaces in `package.json`:
-```json
-{
-  "workspaces": [
-    "projects/*"
-  ]
-}
-```
-
-## Benefits
-
-### For Development
-- **Instant feedback**: Cross-project changes work immediately
-- **No publish cycle**: Test fixes without npm publish
-- **Unified commands**: Build/test everything with single commands
-- **Dependency clarity**: See exact dependency relationships
-
-### For CI/CD
-- **Reproducible builds**: Exact version control
-- **Coordinated releases**: Publish related changes together
-- **Full test coverage**: Test all integrations before release
-
-### For Users
-- **Individual packages**: Users still get clean, focused packages
-- **Stable releases**: Coordinated testing ensures compatibility
-- **Clear dependencies**: Published packages have proper version constraints
-
-## Comparison to Monorepo
-
-| Aspect | @akaoio/core (Multi-repo + Workspace) | Traditional Monorepo |
-|--------|---------------------------------------|---------------------|
-| **Source control** | Individual repositories | Single repository |
-| **Independence** | Full independence | Coupled |
-| **Publishing** | Individual or coordinated | Usually coordinated |
-| **Discovery** | Each repo discoverable | Single repo only |
-| **Development** | Unified via workspace | Unified |
-| **CI/CD** | Per-repo + coordinated | Single pipeline |
-
-## Troubleshooting
-
-### Setup Issues
-```bash
-# If setup fails, try manual steps:
-rm -rf projects/
-npm run setup
-
-# For specific project:
-git clone https://github.com/akaoio/composer.git projects/composer
-```
-
-### Build Issues
-```bash
-# Clean rebuild everything:
-npm run clean
+# Build all projects
 npm run build
 
-# Build specific project:
-cd projects/composer/
-npm run build
+# Build specific project
+cd projects/builder && npm run build
 ```
 
-### Dependency Issues
-```bash
-# Reinstall all dependencies:
-rm -rf node_modules/ projects/*/node_modules/
-npm install
-```
+## 🔐 Security
 
-## Contributing
+- All sensitive data in `.env` files (gitignored)
+- No credentials in code
+- Repository URLs use HTTPS/SSH keys
+- Workspace isolation for team agents
 
-1. **Individual repositories**: Contribute to specific technologies in their repos
-2. **Workspace improvements**: Contribute workspace orchestration improvements here
-3. **Issues**: Report integration issues here, specific issues in individual repos
+## 📄 License
 
-## License
+MIT © AKAO Team
 
-MIT - Individual projects may have different licenses, check their repositories.
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Test changes across all projects
+4. Submit a pull request
 
 ---
 
-**Ready to build the future of development tools?**
-
-```bash
-git clone https://github.com/akaoio/core.git
-cd core
-npm run setup
-```
-
-*You'll have the complete AKAO.IO development environment in minutes.*
+*Generated:  using @akaoio/composer*
+*Version: 1.0.0*

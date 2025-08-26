@@ -1,0 +1,36 @@
+{
+  "name": "@akaoio/agent-runtime",
+  "version": "1.0.0",
+  "description": "Revolutionary Air-based Living Agent Runtime System",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "setup": "tsx launcher.ts --setup",
+    "start": "tsx launcher.ts",
+    "stop": "tsx launcher.ts --stop",
+    "status": "tsx launcher.ts --status",
+    "build": "tsc",
+    "dev": "tsx --watch launcher.ts",
+    "test": "echo 'Testing living agents...' && npm run status"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "gun": "^0.2020.1241",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "agents",
+    "air",
+    "gun",
+    "real-time",
+    "distributed",
+    "coordination"
+  ],
+  "author": "AKAO.IO",
+  "license": "MIT"
+}

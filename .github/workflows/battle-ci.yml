@@ -1,0 +1,314 @@
+name: Battle CI/CD - Core Projects Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'projects/**'
+      - 'config/repos.json'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'projects/**'
+      - 'config/repos.json'
+      - 'scripts/**'
+      - '.github/workflows/**'
+
+env:
+  NODE_VERSION: '18'
+  BUN_VERSION: 'latest'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-projects: ${{ steps.changes.outputs.projects }}
+      matrix: ${{ steps.matrix.outputs.projects }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect changed projects
+        id: changes
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+          fi
+          
+          CHANGED_FILES=$(git diff --name-only $BASE_SHA ${{ github.sha }} | grep "^projects/" | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+          echo "Changed projects: $CHANGED_FILES"
+          echo "projects=$CHANGED_FILES" >> $GITHUB_OUTPUT
+
+      - name: Generate test matrix
+        id: matrix
+        run: |
+          PROJECTS="${{ steps.changes.outputs.projects }}"
+          if [ -z "$PROJECTS" ]; then
+            echo "projects=[]" >> $GITHUB_OUTPUT
+          else
+            MATRIX_JSON=$(echo $PROJECTS | tr ' ' '\n' | jq -R . | jq -s .)
+            echo "projects=$MATRIX_JSON" >> $GITHUB_OUTPUT
+          fi
+
+  battle-test:
+    needs: setup
+    if: needs.setup.outputs.changed-projects != ''
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJson(needs.setup.outputs.matrix) }}
+        runtime: ['node', 'bun']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: matrix.runtime == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Bun
+        if: matrix.runtime == 'bun'
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install workspace dependencies
+        run: |
+          if [ "${{ matrix.runtime }}" = "bun" ]; then
+            bun install
+          else
+            npm ci
+          fi
+
+      - name: Setup workspace
+        run: npm run setup
+
+      - name: Build all projects
+        run: npm run build
+
+      - name: Install Battle and dependencies
+        run: |
+          # Install tsx globally for TypeScript support
+          if [ "${{ matrix.runtime }}" = "node" ]; then
+            npm install -g tsx
+          fi
+          
+          # Build and link Battle
+          cd projects/battle
+          if [ "${{ matrix.runtime }}" = "bun" ]; then
+            bun run build
+            bun link
+          else
+            npm run build
+            npm link
+          fi
+
+      - name: Run Battle self-tests
+        run: |
+          cd projects/battle
+          if [ "${{ matrix.runtime }}" = "bun" ]; then
+            bun test
+          else
+            npm test
+          fi
+
+      - name: Run project-specific Battle tests
+        if: matrix.project != 'battle'
+        run: |
+          PROJECT_PATH="projects/${{ matrix.project }}"
+          if [ -d "$PROJECT_PATH" ]; then
+            cd "$PROJECT_PATH"
+            
+            # Look for Battle test files and run them
+            BATTLE_TESTS=$(find . -maxdepth 3 -name "*.battle.*" -type f)
+            if [ -n "$BATTLE_TESTS" ]; then
+              echo "Running Battle tests for ${{ matrix.project }}"
+              echo "Found tests: $BATTLE_TESTS"
+              
+              # Run each Battle test file
+              for test_file in $BATTLE_TESTS; do
+                echo "Running: $test_file"
+                if [ "${{ matrix.runtime }}" = "bun" ]; then
+                  bun battle test "$test_file"
+                else
+                  battle test "$test_file"
+                fi
+              done
+              
+            elif [ -f "package.json" ] && grep -q "battle" package.json; then
+              echo "Running npm test for ${{ matrix.project }}"
+              if [ "${{ matrix.runtime }}" = "bun" ]; then
+                bun test
+              else
+                npm test
+              fi
+            else
+              echo "No Battle tests found for ${{ matrix.project }}"
+              echo "Checked for: *.battle.js, *.battle.cjs, *.battle.ts files"
+            fi
+          fi
+
+      - name: Generate Battle report
+        if: always()
+        run: |
+          mkdir -p battle-reports
+          PROJECT_PATH="projects/${{ matrix.project }}"
+          
+          if [ -d "$PROJECT_PATH/logs" ]; then
+            echo "Generating Battle HTML reports..."
+            cd "$PROJECT_PATH"
+            
+            # Convert JSON replays to HTML
+            for replay in logs/*.json; do
+              if [ -f "$replay" ]; then
+                battle replay export "$replay" --format html --output "../../battle-reports/$(basename $replay .json)-${{ matrix.runtime }}.html"
+              fi
+            done
+            
+            # Generate test coverage report
+            if [ -f "logs/battle-report.json" ]; then
+              cp "logs/battle-report.json" "../../battle-reports/${{ matrix.project }}-${{ matrix.runtime }}-report.json"
+            fi
+          fi
+
+      - name: Upload Battle artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: battle-reports-${{ matrix.project }}-${{ matrix.runtime }}
+          path: |
+            battle-reports/
+            projects/${{ matrix.project }}/logs/
+          retention-days: 7
+
+  integration-tests:
+    needs: [setup, battle-test]
+    if: needs.setup.outputs.changed-projects != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup workspace
+        run: npm run setup
+
+      - name: Build all projects
+        run: npm run build
+
+      - name: Run workspace-wide Battle tests
+        run: |
+          # Install Battle globally
+          cd projects/battle
+          npm run build
+          npm link
+          cd ../..
+          
+          # Run integration tests
+          if [ -f "test-integration.battle.js" ]; then
+            battle test "./test-integration.battle.js"
+          fi
+          
+          # Test workspace status
+          npm run status
+
+      - name: Validate build order
+        run: |
+          # Test that build order in config/repos.json works
+          echo "Testing build order dependency resolution..."
+          npm run build
+
+      - name: Upload integration artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-reports
+          path: |
+            logs/
+            *.log
+          retention-days: 3
+
+  security-scan:
+    needs: setup
+    if: needs.setup.outputs.changed-projects != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run security audit
+        run: |
+          npm audit --audit-level moderate
+          
+          # Check for sensitive files
+          if find . -name "*.key" -o -name "*.pem" -o -name "*.env" | grep -v node_modules | head -1; then
+            echo "❌ Sensitive files detected"
+            exit 1
+          fi
+
+      - name: Battle security tests
+        run: |
+          if [ -f "security-tests.battle.js" ]; then
+            cd projects/battle
+            npm run build
+            npm link
+            cd ../..
+            battle test "./security-tests.battle.js"
+          fi
+
+  notify:
+    needs: [battle-test, integration-tests]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success notification
+        if: needs.battle-test.result == 'success' && needs.integration-tests.result == 'success'
+        run: |
+          echo "✅ All Battle CI/CD tests passed!"
+          echo "Projects tested: ${{ needs.setup.outputs.changed-projects }}"
+
+      - name: Failure notification  
+        if: needs.battle-test.result == 'failure' || needs.integration-tests.result == 'failure'
+        run: |
+          echo "❌ Battle CI/CD tests failed!"
+          echo "Check the Battle reports artifacts for detailed logs and replays."
+          exit 1
+
+  cleanup:
+    needs: [battle-test, integration-tests, security-scan]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup workspace
+        run: |
+          echo "🧹 Cleaning up CI workspace..."
+          # Any cleanup tasks can go here

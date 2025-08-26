@@ -17,12 +17,17 @@ architecture:
       type: directory
       description: "Cloned repositories (gitignored)"
       contents:
+        access: "Foundational network access layer - eternal infrastructure"
         composer: "Atomic documentation engine"
         battle: "Universal terminal testing framework"
         builder: "TypeScript build framework"
         air: "Distributed P2P database"
 
 core_technologies:
+  - name: "@akaoio/access"
+    description: "Foundational network access layer - eternal infrastructure"
+    purpose: "Pure shell DNS synchronization - when everything fails, Access survives"
+    foundational: true
   - name: "@akaoio/composer"
     description: "Atomic documentation engine"
     purpose: "Generate all documentation from atomic pieces"

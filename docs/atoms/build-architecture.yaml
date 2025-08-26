@@ -4,10 +4,22 @@ description: |
   Fundamental build architecture rules that apply to ALL repositories managed by the @akaoio/core workspace orchestrator.
 
 universal_rules:
+  - rule: "WORKSPACE CLEANLINESS"
+    description: "NEVER create trash files in project roots - ALL temporary work goes to tmp/"
+    applies_to: "ALL projects in the workspace and all agents"
+    violation_impact: "Workspace pollution prevents scalable development"
+    enforcement: "tmp/ for temporary files, root only for official project files"
+    
   - rule: "NEVER edit built artifacts"
     description: "Never edit .js, .cjs, .mjs files across ANY project in the workspace - they are built artifacts"
     applies_to: "ALL managed repositories (composer, battle, builder, air, tui, ui)"
     violation_impact: "Changes will be overwritten on next build, causing confusion and lost work"
+  
+  - rule: "NEVER create versioned or temporary files"
+    description: "NEVER create or edit files with patterns: v1, v2, v3, simple, fixed, new, temp, old, backup, copy"
+    applies_to: "ALL files across ALL managed repositories"
+    violation_impact: "Creates tech debt, confusion, and architecture drift"
+    enforcement: "CRITICAL - agents must refuse to create these files"
   
   - rule: "Source-first development"
     description: "Always edit .ts, .tsx, .jsx files (source files) in ALL managed repositories"
@@ -22,6 +34,11 @@ universal_rules:
 workspace_policy:
   enforcement: "This rule applies to all repositories managed by the orchestrator"
   managed_projects:
+    - name: "access"
+      build_system: "Pure Shell (NO BUILD REQUIRED) - FOUNDATIONAL LAYER"
+      source_extensions: [".sh"]
+      artifact_extensions: ["N/A - shell is interpreted directly"]
+      special: "Eternal infrastructure - when everything fails, Access survives"
     - name: "composer"
       build_system: "TypeScript → JavaScript"
       source_extensions: [".ts", ".tsx"]
@@ -92,3 +109,15 @@ identification_hints:
       - "Import statements using .ts extensions"
       - "Raw, unprocessed code"
       - "Located in src/ directories"
+      
+  tech_debt_files:
+    prohibited_patterns:
+      - "*-v[0-9]*" # versioned files
+      - "*-simple*" # simplified variants
+      - "*-fixed*" # fixed variants
+      - "*-new*" # new variants
+      - "*-old*" # old variants  
+      - "*-temp*" # temporary files
+      - "*-backup*" # backup files
+      - "*-copy*" # copy files
+    action: "REFUSE to create - suggest semantic alternatives"

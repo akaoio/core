@@ -1,5 +1,14 @@
 {
   "repositories": {
+    "access": {
+      "url": "https://github.com/akaoio/access.git",
+      "branch": "main",
+      "directory": "projects/access",
+      "description": "Foundational network access layer - eternal infrastructure",
+      "core": true,
+      "foundational": true,
+      "dependencies": []
+    },
     "composer": {
       "url": "https://github.com/akaoio/composer.git",
       "branch": "main",
@@ -50,6 +59,7 @@
     }
   },
   "build_order": [
+    "access",
     "builder",
     "battle", 
     "composer",
@@ -58,6 +68,7 @@
     "ui"
   ],
   "core_technologies": [
+    "access",
     "composer",
     "battle", 
     "builder",

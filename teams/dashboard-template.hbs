@@ -1,0 +1,102 @@
+# Multi-Agent System Dashboard
+*Real-time status generated at: {{TIMESTAMP}}*
+
+## 📊 System Overview
+- **Total Teams**: {{TEAM_COUNT}}
+- **Total Agents**: {{AGENT_COUNT}}
+- **Active Agent Sessions**: {{ACTIVE_SESSIONS_COUNT}}
+- **Active Workspaces**: {{ACTIVE_WORKSPACES}} *(legacy)*
+- **System Status**: {{SYSTEM_STATUS}}
+- **Dashboard Updates**: Every {{UPDATE_FREQUENCY}} actions per agent
+
+## 🤖 Team Status
+{{#each TEAMS}}
+### Team: {{id}} {{#if ACTIVE}}🟢{{else}}⚪{{/if}}
+**Description**: {{description}}
+
+**Members** ({{members.length}}):
+{{#each members}}
+- {{role}}{{#if ../ACTIVE}}{{#if ../WORKSPACE}} 🏗️{{/if}}{{/if}} - *{{specialization}}*
+{{/each}}
+
+**Triggers**: {{#each triggers}}`{{this}}`{{#if @last}}{{else}}, {{/if}}{{/each}}
+
+{{#if ACTIVE}}
+**Active Since**: {{ACTIVE_SINCE}}
+**Current Workspace**: `{{WORKSPACE}}`
+**Last Update**: {{LAST_UPDATE}}
+{{/if}}
+
+---
+{{/each}}
+
+## 🤖 Active Agent Sessions
+{{#if ACTIVE_SESSIONS}}
+{{#each ACTIVE_SESSIONS}}
+### {{SESSION_ID}}
+- **Status**: {{STATUS}}
+- **Actions**: {{ACTION_COUNT}}
+- **Last Update**: {{LAST_UPDATE}}
+- **Session File**: `tmp/teams/sessions/{{SESSION_ID}}.lock`
+- **Update Log**: `tmp/teams/updates/{{SESSION_ID}}.log`
+
+{{/each}}
+{{else}}
+*No active agent sessions detected*
+{{/if}}
+
+## 📈 Activity Log (Last 10 entries)
+{{#each ACTIVITY_LOG}}
+- `{{timestamp}}` - {{message}}
+{{/each}}
+
+## 📝 Agent Update Files
+{{#if AGENT_UPDATES}}
+{{#each AGENT_UPDATES}}
+### {{AGENT_ID}}
+```
+{{RECENT_UPDATES}}
+```
+{{/each}}
+{{else}}
+*No agent update files found*
+{{/if}}
+
+## 🚨 Current Blockers
+{{#if BLOCKERS}}
+{{#each BLOCKERS}}
+- **{{team}}**: {{message}} *({{timestamp}})*
+{{/each}}
+{{else}}
+*No active blockers*
+{{/if}}
+
+## 🔧 Conflict Resolution Log
+{{#if CONFLICTS}}
+{{#each CONFLICTS}}
+- `{{timestamp}}` - {{message}}
+{{/each}}
+{{else}}
+*No conflicts detected*
+{{/if}}
+
+## 🔄 System Commands
+
+### Generate Fresh Agents
+```bash
+cd /home/x/core && node teams/generate-with-composer.cjs
+```
+
+### Check System Health  
+```bash
+ls -la tmp/teams/ && cat tmp/teams/STATUS.md
+```
+
+### Clean Inactive Workspaces
+```bash
+find tmp/teams -name "*-*" -type d -mmin +60 -exec rm -rf {} + 2>/dev/null
+```
+
+---
+*Dashboard generated using @akaoio/composer Template engine*
+*Update frequency: Every {{UPDATE_FREQUENCY}} minutes*

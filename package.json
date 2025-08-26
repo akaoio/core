@@ -19,11 +19,20 @@
     "sync:watch": "node scripts/sync.js --watch",
     "sync:dry": "node scripts/sync.js --dry-run",
     "sync:to-core": "node scripts/sync.js --to-core",
-    "sync:to-projects": "node scripts/sync.js --to-projects"
+    "sync:to-projects": "node scripts/sync.js --to-projects",
+    "integrity:scan": "node scripts/integrity-scanner.cjs .",
+    "integrity:dashboard": "node scripts/integrity-dashboard.cjs",
+    "integrity:enforce": "npm run integrity:scan && npm run integrity:dashboard",
+    "precommit": "npm run integrity:enforce",
+    "agents:setup": "cd teams/agent-runtime && npm install && npm run setup",
+    "agents:start": "cd teams/agent-runtime && npm start",
+    "agents:stop": "cd teams/agent-runtime && npm run stop",
+    "agents:status": "cd teams/agent-runtime && npm run status",
+    "agents:dashboard": "echo 'Open teams/agent-runtime/dashboard/LiveAgentDashboard.html in your browser'"
   },
   "workspaces": [
     "projects/composer",
-    "projects/battle", 
+    "projects/battle",
     "projects/builder",
     "projects/air",
     "projects/tui",
@@ -51,7 +60,13 @@
   },
   "devDependencies": {
     "chalk": "^5.0.0",
-    "ora": "^6.0.0",
-    "chokidar": "^3.5.3"
+    "chokidar": "^3.5.3",
+    "js-yaml": "^4.1.0",
+    "ora": "^6.0.0"
+  },
+  "dependencies": {
+    "glob": "^8.1.0",
+    "node-pty": "^1.0.0",
+    "strip-ansi": "^7.1.0"
   }
 }
