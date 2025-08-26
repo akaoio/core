@@ -100,6 +100,22 @@ class IntegrityScanner {
                 /\/\/\s*temporary/gi,
                 /\/\/\s*quick\s*fix/gi,
                 /\/\/\s*dirty\s*hack/gi
+            ],
+            
+            // UI/UX violations - hardcoded decorations
+            hardcodedDecorations: [
+                /={5,}/g,           // Five or more equals signs
+                /-{5,}/g,           // Five or more dashes  
+                /\*{5,}/g,          // Five or more asterisks
+                /#{5,}/g,           // Five or more hash signs
+                /\+{5,}/g,          // Five or more plus signs
+                /~{5,}/g,           // Five or more tildes
+                /`{5,}/g,           // Five or more backticks
+                /_+={3,}_+/g,       // Underscore-equals patterns
+                /\[={3,}\]/g,       // Bracketed equals patterns
+                /console\.log\(['"`][=\-\*#]{3,}['"`]\)/g, // Console log decorations
+                /echo\s+['"`][=\-\*#]{3,}['"`]/g,        // Echo decorations
+                /printf\s+['"`][=\-\*#]{3,}['"`]/g       // Printf decorations
             ]
         };
         
@@ -279,6 +295,7 @@ class IntegrityScanner {
         const severityMap = {
             fakeTests: this.severityLevels.CRITICAL,
             fakeCode: this.severityLevels.CRITICAL,
+            hardcodedDecorations: this.severityLevels.HIGH,
             mockAbuse: this.severityLevels.HIGH,
             placeholders: this.severityLevels.MEDIUM,
             suspiciousComments: this.severityLevels.LOW
@@ -291,6 +308,7 @@ class IntegrityScanner {
         const messages = {
             fakeTests: '🚨 FAKE TEST ALERT: This test does not verify real behavior',
             fakeCode: '🚨 FAKE CODE ALERT: Implementation is placeholder/stub',
+            hardcodedDecorations: '📱 UI/UX VIOLATION: Hardcoded decorations break on small screens',
             mockAbuse: '⚠️ MOCK ABUSE: Mock used where real implementation needed',
             placeholders: '⚠️ PLACEHOLDER DETECTED: Contains dummy/placeholder content',
             suspiciousComments: '💭 SUSPICIOUS COMMENT: Indicates incomplete implementation'

@@ -32,11 +32,13 @@ async function generateAgents() {
     
     Object.entries(teamConfig.teams).forEach(([teamKey, team]) => {
       team.members.forEach((member, index) => {
-        // Simple, direct naming - one agent per configuration entry
-        const agentName = `team-${team.id}-${member.role}`;
+        // USE SHORT NAMES AS PRIMARY AGENT NAMES
+        const shortName = member.shortName || `team-${team.id}-${member.role}`;
+        const agentName = shortName; // Short name IS the official name
         
         const agentData = {
           AGENT_NAME: agentName,
+          SHORT_NAME: shortName,
           MODEL: member.model || 'claude-3-5-sonnet-20241022',
           TEAM_ID: team.id,
           ROLE: member.role,

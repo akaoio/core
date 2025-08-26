@@ -1,0 +1,304 @@
+teams:
+  core-fix:
+    id: core-fix
+    description: "Identifies, analyzes and fixes bugs, test failures, and build errors across the multi-repository workspace"
+    triggers:
+      - "fix"
+      - "sửa"
+      - "debug"
+      - "error"
+    conditions:
+      - "User requests bug fixes or error resolution"
+      - "Tests are failing"
+      - "Build errors occur"
+      - "Code quality issues detected"
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+        specialization: "error analysis, fix planning, and task coordination"
+      - role: fixer
+        model: claude-3-5-sonnet-20241022
+        specialization: "bug fixes, test repairs, and code corrections"
+
+  integration:
+    id: integration
+    description: "Handles cross-package integration, dependency management, and compatibility testing"
+    triggers:
+      - "tích hợp"
+      - "integrate"
+      - "compatibility"
+      - "dependencies"
+    conditions:
+      - "Cross-package issues need resolution"
+      - "Dependency conflicts occur"
+      - "Integration tests failing"
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+        specialization: "integration planning and compatibility coordination"
+      - role: integrator
+        model: claude-3-5-sonnet-20241022
+        specialization: "package integration and dependency resolution"
+
+  feature-dev:
+    id: feature-dev
+    description: "Develops new features, implements enhancements, and extends functionality"
+    triggers:
+      - "tính năng"
+      - "feature"
+      - "implement"
+      - "develop"
+    conditions:
+      - "New features need implementation"
+      - "Enhancements requested"
+      - "System extensions required"
+    members:
+      - role: coordinator
+        model: claude-3-5-sonnet-20241022
+        specialization: "feature planning and development coordination"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "feature implementation and code development"
+
+  meta:
+    id: meta
+    description: "Understands and explains the entire multi-agent system, coordinates between teams, and provides system-wide awareness and orchestration"
+    triggers:
+      - "explain system"
+      - "meta"
+      - "orchestrate"
+      - "system overview"
+      - "agent system"
+      - "multi-team"
+    conditions:
+      - "Need understanding of the multi-agent system"
+      - "Coordination between multiple teams required"
+      - "System-wide orchestration needed"
+      - "Explaining the agent architecture"
+      - "Self-referential system analysis required"
+    members:
+      - role: orchestrator
+        model: claude-3-5-sonnet-20241022
+        specialization: "system architecture understanding, cross-team coordination, and multi-agent orchestration"
+
+  # INTEGRITY ENFORCEMENT TEAM - CRITICAL SYSTEM
+  integrity:
+    id: integrity
+    description: "Ruthlessly detects and eliminates fake code, fake tests, and placeholder implementations. Enforces REAL code standards with zero tolerance for deception."
+    triggers:
+      - "integrity"
+      - "police"
+      - "fake code"
+      - "fake tests"
+      - "code review"
+      - "quality enforcement"
+      - "real implementation"
+    conditions:
+      - "Fake code or tests detected"
+      - "Placeholder implementations found"
+      - "Quality standards violation"
+      - "Code integrity verification needed"
+      - "Real-time scanning required"
+    members:
+      - role: inspector
+        model: claude-3-5-sonnet-20241022
+        specialization: "deep code analysis, fake pattern detection, and integrity verification with forensic precision"
+      - role: enforcer
+        model: claude-3-5-sonnet-20241022
+        specialization: "aggressive fake code elimination, real implementation enforcement, and quality standards policing"
+      - role: validator
+        model: claude-3-5-sonnet-20241022
+        specialization: "comprehensive test verification, assertion validation, and implementation authenticity checking"
+      - role: sentinel
+        model: claude-3-5-sonnet-20241022
+        specialization: "continuous monitoring, real-time scanning, and integrity violation alerting"
+
+  # ATOMIC DEMONSTRATION: New team added by meta-orchestrator
+  security:
+    id: security
+    description: "Handles security analysis, vulnerability detection, and system hardening"
+    triggers:
+      - "security"
+      - "vulnerability"
+      - "audit"
+      - "secure"
+    conditions:
+      - "Security analysis required"
+      - "Vulnerability assessment needed"
+      - "System hardening requested"
+    members:
+      - role: auditor
+        model: claude-3-5-sonnet-20241022
+        specialization: "security auditing and vulnerability detection"
+      - role: hardener
+        model: claude-3-5-sonnet-20241022
+        specialization: "system hardening and security implementation"
+
+  # PROJECT-SPECIFIC TEAMS - Each core technology has its own dedicated team
+  team-access:
+    id: team-access
+    description: "Pure shell network access layer - eternal infrastructure team"
+    triggers:
+      - "team access"
+      - "access team"
+      - "dns"
+      - "network layer"
+    conditions:
+      - "ACCESS project needs development or maintenance"
+      - "DNS synchronization issues"
+      - "Shell infrastructure work required"
+      - "Network layer problems"
+    members:
+      - role: maintainer
+        model: claude-3-5-sonnet-20241022
+        specialization: "shell scripting, DNS systems, network protocols"
+      - role: guardian
+        model: claude-3-5-sonnet-20241022
+        specialization: "system stability, backwards compatibility, eternal infrastructure"
+      - role: optimizer
+        model: claude-3-5-sonnet-20241022
+        specialization: "performance tuning, shell optimization, resource efficiency"
+
+  team-composer:
+    id: team-composer
+    description: "Atomic documentation engine team"
+    triggers:
+      - "team composer"
+      - "composer team"
+      - "documentation"
+      - "templates"
+    conditions:
+      - "COMPOSER project needs development"
+      - "Documentation generation issues"
+      - "Template engine improvements needed"
+      - "Atom composition problems"
+    members:
+      - role: architect
+        model: claude-3-5-sonnet-20241022
+        specialization: "template engine design, Handlebars processing, YAML parsing"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "feature implementation, template rendering, data composition"
+      - role: integrator
+        model: claude-3-5-sonnet-20241022
+        specialization: "atom integration, import resolution, circular dependency handling"
+
+  team-battle:
+    id: team-battle
+    description: "Universal terminal testing framework team"
+    triggers:
+      - "team battle"
+      - "battle team"
+      - "testing"
+      - "pty"
+    conditions:
+      - "BATTLE framework needs development"
+      - "PTY testing issues"
+      - "Test framework improvements needed"
+      - "Terminal testing problems"
+    members:
+      - role: architect
+        model: claude-3-5-sonnet-20241022
+        specialization: "PTY architecture, terminal emulation, test framework design"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "test implementation, assertion library, terminal control"
+      - role: validator
+        model: claude-3-5-sonnet-20241022
+        specialization: "test coverage, cross-platform testing, regression prevention"
+
+  team-builder:
+    id: team-builder
+    description: "Universal TypeScript build framework team"
+    triggers:
+      - "team builder"
+      - "builder team"
+      - "build"
+      - "compilation"
+    conditions:
+      - "BUILDER framework needs development"
+      - "Build system issues"
+      - "Compilation improvements needed"
+      - "Multi-format output problems"
+    members:
+      - role: architect
+        model: claude-3-5-sonnet-20241022
+        specialization: "build system design, esbuild/tsup configuration, multi-format output"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "build features, watch mode, configuration management"
+      - role: optimizer
+        model: claude-3-5-sonnet-20241022
+        specialization: "build performance, bundle size optimization, tree shaking"
+
+  team-air:
+    id: team-air
+    description: "Distributed P2P database team"
+    triggers:
+      - "team air"
+      - "air team"
+      - "p2p"
+      - "gun database"
+    conditions:
+      - "AIR project needs development"
+      - "P2P communication issues"
+      - "Living Agent System problems"
+      - "GUN database work required"
+    members:
+      - role: architect
+        model: claude-3-5-sonnet-20241022
+        specialization: "P2P architecture, GUN database, distributed systems"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "real-time sync, agent communication, event propagation"
+      - role: guardian
+        model: claude-3-5-sonnet-20241022
+        specialization: "data integrity, network security, consensus protocols"
+
+  team-tui:
+    id: team-tui
+    description: "Terminal UI framework team"
+    triggers:
+      - "team tui"
+      - "tui team"
+      - "terminal ui"
+      - "cli interface"
+    conditions:
+      - "TUI framework needs development"
+      - "Terminal UI component issues"
+      - "CLI interface improvements needed"
+      - "Terminal rendering problems"
+    members:
+      - role: designer
+        model: claude-3-5-sonnet-20241022
+        specialization: "UI/UX design, component architecture, keyboard navigation"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "component implementation, state management, ANSI rendering"
+      - role: accessibility
+        model: claude-3-5-sonnet-20241022
+        specialization: "screen reader support, keyboard shortcuts, usability"
+
+  team-ui:
+    id: team-ui
+    description: "Vanilla JavaScript UI framework team"
+    triggers:
+      - "team ui"
+      - "ui team"
+      - "web components"
+      - "frontend"
+    conditions:
+      - "UI framework needs development"
+      - "Web Components work required"
+      - "Frontend improvements needed"
+      - "CSS-in-JS system issues"
+    members:
+      - role: architect
+        model: claude-3-5-sonnet-20241022
+        specialization: "Web Components, Shadow DOM, CSS-in-JS architecture"
+      - role: developer
+        model: claude-3-5-sonnet-20241022
+        specialization: "component development, vanilla JavaScript, ES modules"
+      - role: designer
+        model: claude-3-5-sonnet-20241022
+        specialization: "theming system, responsive design, component styling"

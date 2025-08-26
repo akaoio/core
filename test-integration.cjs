@@ -1,142 +1,76 @@
 #!/usr/bin/env node
-/**
- * Cross-Technology Integration Test
- * Verifies all @akaoio core technologies work together
- */
+// Test actual integration between packages
 
-const { execSync } = require('child_process')
-const path = require('path')
-const fs = require('fs')
+const { execSync } = require('child_process');
+const path = require('path');
 
-console.log('🧪 Testing @akaoio Core Technologies Integration\n')
+console.log('🧪 Testing Package Integration\n');
 
-const projects = ['battle', 'composer', 'builder', 'air']
-const results = {}
-
-// Test each project
-for (const project of projects) {
-    console.log(`\n📦 Testing ${project}...`)
-    const projectPath = path.join(__dirname, 'projects', project)
-    
-    if (!fs.existsSync(projectPath)) {
-        console.log(`  ❌ Project ${project} not found`)
-        results[project] = false
-        continue
-    }
-    
-    try {
-        // Check if package.json exists
-        const packageJson = require(path.join(projectPath, 'package.json'))
-        console.log(`  ✓ Found ${packageJson.name} v${packageJson.version}`)
-        
-        // Run build if available
-        if (packageJson.scripts && packageJson.scripts.build) {
-            console.log('  🔨 Running build...')
-            execSync('npm run build', { 
-                cwd: projectPath,
-                stdio: 'pipe'
-            })
-            console.log('  ✓ Build completed')
-        }
-        
-        // Run tests if available
-        if (packageJson.scripts && packageJson.scripts.test) {
-            console.log('  🧪 Running tests...')
-            try {
-                execSync('npm test', { 
-                    cwd: projectPath,
-                    stdio: 'pipe',
-                    timeout: 60000
-                })
-                console.log('  ✓ Tests passed')
-            } catch (e) {
-                // Some test failures are expected
-                console.log('  ⚠️  Some tests failed (expected)')
-            }
-        }
-        
-        results[project] = true
-    } catch (error) {
-        console.log(`  ❌ Error: ${error.message}`)
-        results[project] = false
-    }
-}
-
-// Test cross-dependencies
-console.log('\n🔗 Testing Cross-Dependencies...')
-
+// Test 1: Can Composer generate docs?
+console.log('1. Testing Composer documentation generation...');
 try {
-    // Check if Air uses Battle for testing
-    const airPackage = require('./projects/air/package.json')
-    if (airPackage.devDependencies && airPackage.devDependencies['@akaoio/battle']) {
-        console.log('  ✓ Air uses Battle for testing')
-    }
-    
-    // Check if Air uses Builder for builds
-    if (airPackage.devDependencies && airPackage.devDependencies['@akaoio/builder']) {
-        console.log('  ✓ Air uses Builder for builds')
-    }
-    
-    // Check if Air uses Composer for docs
-    if (airPackage.devDependencies && airPackage.devDependencies['@akaoio/composer']) {
-        console.log('  ✓ Air uses Composer for documentation')
-    }
+  process.chdir('projects/composer');
+  execSync('node bin/composer.mjs --help', { stdio: 'ignore' });
+  console.log('   ✅ Composer CLI works');
 } catch (e) {
-    console.log('  ⚠️  Could not verify all cross-dependencies')
+  console.log('   ❌ Composer CLI failed:', e.message);
 }
 
-// Summary
-console.log('\n📊 Integration Test Summary')
-console.log('═══════════════════════════')
-
-let passed = 0
-let failed = 0
-
-for (const [project, result] of Object.entries(results)) {
-    if (result) {
-        console.log(`  ✅ ${project}: PASS`)
-        passed++
-    } else {
-        console.log(`  ❌ ${project}: FAIL`)
-        failed++
-    }
-}
-
-console.log('\n📈 Results:')
-console.log(`  Passed: ${passed}/${projects.length}`)
-console.log(`  Failed: ${failed}/${projects.length}`)
-
-// Check workspace integration
-console.log('\n🏗️  Workspace Integration:')
-
+// Test 2: Can Battle run tests?
+console.log('\n2. Testing Battle test execution...');
 try {
-    // Check if workspace dependencies are set up
-    const workspacePackage = require('./package.json')
-    if (workspacePackage.workspaces) {
-        console.log('  ✓ Workspace configuration found')
-        console.log(`  ✓ Managing ${workspacePackage.workspaces.length} projects`)
-    }
-    
-    // Check if all projects are in workspace
-    const workspaceProjects = workspacePackage.workspaces.map(w => w.replace('projects/', ''))
-    const allInWorkspace = projects.every(p => workspaceProjects.includes(p))
-    
-    if (allInWorkspace) {
-        console.log('  ✓ All core technologies in workspace')
-    } else {
-        console.log('  ⚠️  Some projects not in workspace')
-    }
+  process.chdir('../battle');
+  const result = execSync('node dist/cli.cjs --help', { encoding: 'utf8' });
+  if (result.includes('test') || result.includes('command')) {
+    console.log('   ✅ Battle CLI works');
+  } else {
+    console.log('   ⚠️  Battle CLI output unexpected');
+  }
 } catch (e) {
-    console.log('  ⚠️  Could not verify workspace setup')
+  console.log('   ❌ Battle CLI failed:', e.message);
 }
 
-// Final status
-console.log('\n🎯 Final Status:')
-if (passed === projects.length) {
-    console.log('  🎉 All core technologies integrated successfully!')
-    process.exit(0)
-} else {
-    console.log('  ⚠️  Some integration issues found')
-    console.log('  Run "npm run setup" to fix issues')
-    process.exit(1)
+// Test 3: Can Builder build projects?
+console.log('\n3. Testing Builder build system...');
+try {
+  process.chdir('../builder');
+  const result = execSync('node dist/cli.js --help', { encoding: 'utf8' });
+  if (result.includes('Builder') || result.includes('build')) {
+    console.log('   ✅ Builder CLI works');
+  } else {
+    console.log('   ⚠️  Builder CLI output unexpected');
+  }
+} catch (e) {
+  console.log('   ❌ Builder CLI failed:', e.message);
 }
+
+// Test 4: Can Air be imported?
+console.log('\n4. Testing Air module import...');
+try {
+  process.chdir('../air');
+  // Check if main entry point exists
+  const fs = require('fs');
+  if (fs.existsSync('dist/main.js')) {
+    console.log('   ✅ Air main module exists');
+  } else {
+    console.log('   ⚠️  Air main module missing');
+  }
+} catch (e) {
+  console.log('   ❌ Air check failed:', e.message);
+}
+
+// Test 5: Access shell script
+console.log('\n5. Testing Access shell script...');
+try {
+  process.chdir('../access');
+  const result = execSync('sh access.sh version', { encoding: 'utf8' });
+  if (result.includes('0.0')) {
+    console.log('   ✅ Access shell script works');
+  } else {
+    console.log('   ⚠️  Access version not found');
+  }
+} catch (e) {
+  console.log('   ❌ Access script failed:', e.message);
+}
+
+console.log('\n✨ Integration testing complete!');

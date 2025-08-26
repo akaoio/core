@@ -1,0 +1,381 @@
+{
+  "shortToFull": {
+    "fix-coord": "team-core-fix-coordinator",
+    "fix-er": "team-core-fix-fixer",
+    "int-coord": "team-integration-coordinator",
+    "int-er": "team-integration-integrator",
+    "feat-coord": "team-feature-dev-coordinator",
+    "feat-dev": "team-feature-dev-developer",
+    "meta-orch": "team-meta-orchestrator",
+    "guard-inspect": "team-integrity-inspector",
+    "guard-enforce": "team-integrity-enforcer",
+    "guard-valid": "team-integrity-validator",
+    "guard-watch": "team-integrity-sentinel",
+    "sec-audit": "team-security-auditor",
+    "sec-hard": "team-security-hardener",
+    "access-keep": "team-team-access-maintainer",
+    "access-guard": "team-team-access-guardian",
+    "access-opt": "team-team-access-optimizer",
+    "comp-arch": "team-team-composer-architect",
+    "comp-dev": "team-team-composer-developer",
+    "comp-link": "team-team-composer-integrator",
+    "bat-arch": "team-team-battle-architect",
+    "bat-dev": "team-team-battle-developer",
+    "bat-valid": "team-team-battle-validator",
+    "build-arch": "team-team-builder-architect",
+    "build-dev": "team-team-builder-developer",
+    "build-opt": "team-team-builder-optimizer",
+    "air-arch": "team-team-air-architect",
+    "air-dev": "team-team-air-developer",
+    "air-guard": "team-team-air-guardian",
+    "tui-design": "team-team-tui-designer",
+    "tui-dev": "team-team-tui-developer",
+    "tui-access": "team-team-tui-accessibility",
+    "ui-arch": "team-team-ui-architect",
+    "ui-dev": "team-team-ui-developer",
+    "ui-design": "team-team-ui-designer"
+  },
+  "fullToShort": {
+    "team-core-fix-coordinator": "fix-coord",
+    "team-core-fix-fixer": "fix-er",
+    "team-integration-coordinator": "int-coord",
+    "team-integration-integrator": "int-er",
+    "team-feature-dev-coordinator": "feat-coord",
+    "team-feature-dev-developer": "feat-dev",
+    "team-meta-orchestrator": "meta-orch",
+    "team-integrity-inspector": "guard-inspect",
+    "team-integrity-enforcer": "guard-enforce",
+    "team-integrity-validator": "guard-valid",
+    "team-integrity-sentinel": "guard-watch",
+    "team-security-auditor": "sec-audit",
+    "team-security-hardener": "sec-hard",
+    "team-team-access-maintainer": "access-keep",
+    "team-team-access-guardian": "access-guard",
+    "team-team-access-optimizer": "access-opt",
+    "team-team-composer-architect": "comp-arch",
+    "team-team-composer-developer": "comp-dev",
+    "team-team-composer-integrator": "comp-link",
+    "team-team-battle-architect": "bat-arch",
+    "team-team-battle-developer": "bat-dev",
+    "team-team-battle-validator": "bat-valid",
+    "team-team-builder-architect": "build-arch",
+    "team-team-builder-developer": "build-dev",
+    "team-team-builder-optimizer": "build-opt",
+    "team-team-air-architect": "air-arch",
+    "team-team-air-developer": "air-dev",
+    "team-team-air-guardian": "air-guard",
+    "team-team-tui-designer": "tui-design",
+    "team-team-tui-developer": "tui-dev",
+    "team-team-tui-accessibility": "tui-access",
+    "team-team-ui-architect": "ui-arch",
+    "team-team-ui-developer": "ui-dev",
+    "team-team-ui-designer": "ui-design"
+  },
+  "categories": {
+    "fix": [
+      "fix-coord",
+      "fix-er"
+    ],
+    "int": [
+      "int-coord",
+      "int-er"
+    ],
+    "feat": [
+      "feat-coord",
+      "feat-dev"
+    ],
+    "meta": [
+      "meta-orch"
+    ],
+    "guard": [
+      "guard-inspect",
+      "guard-enforce",
+      "guard-valid",
+      "guard-watch"
+    ],
+    "sec": [
+      "sec-audit",
+      "sec-hard"
+    ],
+    "access": [
+      "access-keep",
+      "access-guard",
+      "access-opt"
+    ],
+    "comp": [
+      "comp-arch",
+      "comp-dev",
+      "comp-link"
+    ],
+    "bat": [
+      "bat-arch",
+      "bat-dev",
+      "bat-valid"
+    ],
+    "build": [
+      "build-arch",
+      "build-dev",
+      "build-opt"
+    ],
+    "air": [
+      "air-arch",
+      "air-dev",
+      "air-guard"
+    ],
+    "tui": [
+      "tui-design",
+      "tui-dev",
+      "tui-access"
+    ],
+    "ui": [
+      "ui-arch",
+      "ui-dev",
+      "ui-design"
+    ]
+  },
+  "agentList": [
+    {
+      "shortName": "fix-coord",
+      "fullName": "team-core-fix-coordinator",
+      "team": "core-fix",
+      "role": "coordinator",
+      "specialization": "error analysis, fix planning, and task coordination"
+    },
+    {
+      "shortName": "fix-er",
+      "fullName": "team-core-fix-fixer",
+      "team": "core-fix",
+      "role": "fixer",
+      "specialization": "bug fixes, test repairs, and code corrections"
+    },
+    {
+      "shortName": "int-coord",
+      "fullName": "team-integration-coordinator",
+      "team": "integration",
+      "role": "coordinator",
+      "specialization": "integration planning and compatibility coordination"
+    },
+    {
+      "shortName": "int-er",
+      "fullName": "team-integration-integrator",
+      "team": "integration",
+      "role": "integrator",
+      "specialization": "package integration and dependency resolution"
+    },
+    {
+      "shortName": "feat-coord",
+      "fullName": "team-feature-dev-coordinator",
+      "team": "feature-dev",
+      "role": "coordinator",
+      "specialization": "feature planning and development coordination"
+    },
+    {
+      "shortName": "feat-dev",
+      "fullName": "team-feature-dev-developer",
+      "team": "feature-dev",
+      "role": "developer",
+      "specialization": "feature implementation and code development"
+    },
+    {
+      "shortName": "meta-orch",
+      "fullName": "team-meta-orchestrator",
+      "team": "meta",
+      "role": "orchestrator",
+      "specialization": "system architecture understanding, cross-team coordination, and multi-agent orchestration"
+    },
+    {
+      "shortName": "guard-inspect",
+      "fullName": "team-integrity-inspector",
+      "team": "integrity",
+      "role": "inspector",
+      "specialization": "deep code analysis, fake pattern detection, and integrity verification with forensic precision"
+    },
+    {
+      "shortName": "guard-enforce",
+      "fullName": "team-integrity-enforcer",
+      "team": "integrity",
+      "role": "enforcer",
+      "specialization": "aggressive fake code elimination, real implementation enforcement, and quality standards policing"
+    },
+    {
+      "shortName": "guard-valid",
+      "fullName": "team-integrity-validator",
+      "team": "integrity",
+      "role": "validator",
+      "specialization": "comprehensive test verification, assertion validation, and implementation authenticity checking"
+    },
+    {
+      "shortName": "guard-watch",
+      "fullName": "team-integrity-sentinel",
+      "team": "integrity",
+      "role": "sentinel",
+      "specialization": "continuous monitoring, real-time scanning, and integrity violation alerting"
+    },
+    {
+      "shortName": "sec-audit",
+      "fullName": "team-security-auditor",
+      "team": "security",
+      "role": "auditor",
+      "specialization": "security auditing and vulnerability detection"
+    },
+    {
+      "shortName": "sec-hard",
+      "fullName": "team-security-hardener",
+      "team": "security",
+      "role": "hardener",
+      "specialization": "system hardening and security implementation"
+    },
+    {
+      "shortName": "access-keep",
+      "fullName": "team-team-access-maintainer",
+      "team": "team-access",
+      "role": "maintainer",
+      "specialization": "shell scripting, DNS systems, network protocols"
+    },
+    {
+      "shortName": "access-guard",
+      "fullName": "team-team-access-guardian",
+      "team": "team-access",
+      "role": "guardian",
+      "specialization": "system stability, backwards compatibility, eternal infrastructure"
+    },
+    {
+      "shortName": "access-opt",
+      "fullName": "team-team-access-optimizer",
+      "team": "team-access",
+      "role": "optimizer",
+      "specialization": "performance tuning, shell optimization, resource efficiency"
+    },
+    {
+      "shortName": "comp-arch",
+      "fullName": "team-team-composer-architect",
+      "team": "team-composer",
+      "role": "architect",
+      "specialization": "template engine design, Handlebars processing, YAML parsing"
+    },
+    {
+      "shortName": "comp-dev",
+      "fullName": "team-team-composer-developer",
+      "team": "team-composer",
+      "role": "developer",
+      "specialization": "feature implementation, template rendering, data composition"
+    },
+    {
+      "shortName": "comp-link",
+      "fullName": "team-team-composer-integrator",
+      "team": "team-composer",
+      "role": "integrator",
+      "specialization": "atom integration, import resolution, circular dependency handling"
+    },
+    {
+      "shortName": "bat-arch",
+      "fullName": "team-team-battle-architect",
+      "team": "team-battle",
+      "role": "architect",
+      "specialization": "PTY architecture, terminal emulation, test framework design"
+    },
+    {
+      "shortName": "bat-dev",
+      "fullName": "team-team-battle-developer",
+      "team": "team-battle",
+      "role": "developer",
+      "specialization": "test implementation, assertion library, terminal control"
+    },
+    {
+      "shortName": "bat-valid",
+      "fullName": "team-team-battle-validator",
+      "team": "team-battle",
+      "role": "validator",
+      "specialization": "test coverage, cross-platform testing, regression prevention"
+    },
+    {
+      "shortName": "build-arch",
+      "fullName": "team-team-builder-architect",
+      "team": "team-builder",
+      "role": "architect",
+      "specialization": "build system design, esbuild/tsup configuration, multi-format output"
+    },
+    {
+      "shortName": "build-dev",
+      "fullName": "team-team-builder-developer",
+      "team": "team-builder",
+      "role": "developer",
+      "specialization": "build features, watch mode, configuration management"
+    },
+    {
+      "shortName": "build-opt",
+      "fullName": "team-team-builder-optimizer",
+      "team": "team-builder",
+      "role": "optimizer",
+      "specialization": "build performance, bundle size optimization, tree shaking"
+    },
+    {
+      "shortName": "air-arch",
+      "fullName": "team-team-air-architect",
+      "team": "team-air",
+      "role": "architect",
+      "specialization": "P2P architecture, GUN database, distributed systems"
+    },
+    {
+      "shortName": "air-dev",
+      "fullName": "team-team-air-developer",
+      "team": "team-air",
+      "role": "developer",
+      "specialization": "real-time sync, agent communication, event propagation"
+    },
+    {
+      "shortName": "air-guard",
+      "fullName": "team-team-air-guardian",
+      "team": "team-air",
+      "role": "guardian",
+      "specialization": "data integrity, network security, consensus protocols"
+    },
+    {
+      "shortName": "tui-design",
+      "fullName": "team-team-tui-designer",
+      "team": "team-tui",
+      "role": "designer",
+      "specialization": "UI/UX design, component architecture, keyboard navigation"
+    },
+    {
+      "shortName": "tui-dev",
+      "fullName": "team-team-tui-developer",
+      "team": "team-tui",
+      "role": "developer",
+      "specialization": "component implementation, state management, ANSI rendering"
+    },
+    {
+      "shortName": "tui-access",
+      "fullName": "team-team-tui-accessibility",
+      "team": "team-tui",
+      "role": "accessibility",
+      "specialization": "screen reader support, keyboard shortcuts, usability"
+    },
+    {
+      "shortName": "ui-arch",
+      "fullName": "team-team-ui-architect",
+      "team": "team-ui",
+      "role": "architect",
+      "specialization": "Web Components, Shadow DOM, CSS-in-JS architecture"
+    },
+    {
+      "shortName": "ui-dev",
+      "fullName": "team-team-ui-developer",
+      "team": "team-ui",
+      "role": "developer",
+      "specialization": "component development, vanilla JavaScript, ES modules"
+    },
+    {
+      "shortName": "ui-design",
+      "fullName": "team-team-ui-designer",
+      "team": "team-ui",
+      "role": "designer",
+      "specialization": "theming system, responsive design, component styling"
+    }
+  ],
+  "metadata": {
+    "generated": "2025-08-26T13:10:00.104Z",
+    "totalAgents": 34,
+    "totalCategories": 13
+  }
+}

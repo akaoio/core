@@ -9,6 +9,16 @@
 - **System Status**: {{SYSTEM_STATUS}}
 - **Dashboard Updates**: Every {{UPDATE_FREQUENCY}} actions per agent
 
+## 🏥 System Health
+- **Health Score**: {{health.score}}/100 ({{health.status}})
+- **Active Agents**: {{health.metrics.activeAgents}}
+- **Stale Workspaces**: {{health.metrics.staleWorkspaces}}
+- **Dashboard Age**: {{health.metrics.dashboardAge}} minutes
+{{#if health.issues}}
+- **Issues**: {{health.issues.length}} detected
+{{#each health.issues}}  - {{this}}
+{{/each}}{{/if}}
+
 ## 🤖 Team Status
 {{#each TEAMS}}
 ### Team: {{id}} {{#if ACTIVE}}🟢{{else}}⚪{{/if}}

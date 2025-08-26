@@ -23,6 +23,9 @@ async function generateDashboard() {
     // Collect system data
     const systemData = await collectSystemData(teamConfig);
     
+    // Add health metrics to system data
+    systemData.health = await collectHealthMetrics();
+    
     console.log('📊 Generating real-time dashboard...');
     
     // Create Template instance
@@ -200,6 +203,73 @@ async function collectSystemData(teamConfig) {
     CONFLICTS: conflicts,
     UPDATE_FREQUENCY: 3
   };
+}
+
+async function collectHealthMetrics() {
+  const health = {
+    score: 100,
+    status: 'Healthy',
+    issues: [],
+    lastCheck: new Date().toISOString(),
+    metrics: {
+      activeAgents: 0,
+      staleWorkspaces: 0,
+      stuckAgents: 0,
+      conflicts: 0,
+      dashboardAge: 0
+    }
+  };
+
+  try {
+    // Load health status if available
+    if (fs.existsSync('tmp/teams/health.status')) {
+      const healthContent = fs.readFileSync('tmp/teams/health.status', 'utf8');
+      const scoreMatch = healthContent.match(/SYSTEM_HEALTH_SCORE: (\d+)/);
+      if (scoreMatch) {
+        health.score = parseInt(scoreMatch[1]);
+      }
+    }
+
+    // Load health issues if available  
+    if (fs.existsSync('tmp/teams/health-issues.log')) {
+      const issuesContent = fs.readFileSync('tmp/teams/health-issues.log', 'utf8');
+      health.issues = issuesContent.split('\n').filter(line => line.trim() && !line.includes('HEALTH ISSUES'));
+    }
+
+    // Calculate metrics
+    const staleWorkspaces = await new Promise(resolve => {
+      require('child_process').exec('find tmp/teams -name "*-*" -type d -mmin +120 2>/dev/null | wc -l', 
+        (error, stdout) => resolve(error ? 0 : parseInt(stdout.trim()))
+      );
+    });
+
+    health.metrics.staleWorkspaces = staleWorkspaces;
+
+    // Count active sessions
+    if (fs.existsSync('tmp/teams/sessions')) {
+      const sessionFiles = fs.readdirSync('tmp/teams/sessions').filter(f => f.endsWith('.lock'));
+      health.metrics.activeAgents = sessionFiles.length;
+    }
+
+    // Check dashboard age
+    if (fs.existsSync('SYSTEM-DASHBOARD.md')) {
+      const stats = fs.statSync('SYSTEM-DASHBOARD.md');
+      health.metrics.dashboardAge = Math.round((Date.now() - stats.mtime.getTime()) / 60000);
+    }
+
+    // Determine health status
+    if (health.score >= 90) health.status = 'Excellent';
+    else if (health.score >= 80) health.status = 'Good';
+    else if (health.score >= 70) health.status = 'Fair';
+    else if (health.score >= 50) health.status = 'Poor';
+    else health.status = 'Critical';
+
+  } catch (error) {
+    console.error('Error collecting health metrics:', error.message);
+    health.issues.push(`Health collection error: ${error.message}`);
+  }
+
+  return health;
 }
 
 async function generateFallbackDashboard() {

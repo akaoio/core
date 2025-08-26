@@ -2,6 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with the @akaoio/core workspace orchestrator.
 
+## 🚨 CRITICAL: UI/UX PRINCIPLE - NO HARDCODED DECORATIONS
+
+### ABSOLUTE UI/UX RULE - NO EXCEPTIONS
+
+**"NO HARDCODED DECORATIONS (like =====================) BECAUSE ON SMALL SCREEN DEVICES THEY ARE BROKEN AND VERY UGLY"**
+
+**🛑 RULE 0: NO HARDCODED DECORATIVE ELEMENTS**
+- **NEVER use hardcoded separator lines** (=====================)
+- **NEVER use fixed-width ASCII borders** (--------------------)
+- **NEVER use fixed character counts** for visual elements
+- **ALL decorations MUST be responsive** and adapt to screen size
+
+**✅ CORRECT ALTERNATIVES:**
+- Terminal: Use `tput cols` for dynamic width detection
+- Web: Use CSS flexible layouts and semantic elements
+- Documentation: Use markdown native separators (`---`)
+- CLI: Calculate proportional decorations based on viewport
+
+**📱 CRITICAL IMPACT:**
+- Small terminal windows become unusable with hardcoded decorations
+- Mobile web interfaces break with fixed-width elements
+- Responsive design principles are fundamental to modern UX
+
 ## 🚨 CRITICAL: WORKSPACE CLEANLINESS PROTOCOL
 
 ### ABSOLUTE RULES - NO EXCEPTIONS
@@ -33,6 +56,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 - **Every agent MUST follow these rules**
 - **Meta-agents MUST enforce this across all teams**
 - **Any violation results in immediate workspace cleanup**
+
+## 📚 STORIES SYSTEM - KNOWLEDGE MANAGEMENT PROTOCOL
+
+### CRITICAL: Collective Knowledge Storage System
+**"WE NEED TO STORE OUR STORIES IN 'stories' FOLDER. EACH STORY IS A TOPIC ABOUT SOMETHING THAT I AND @agent-meta TALK! WE MUST KEEP THEM TIDY AND NOT DUPLICATED."**
+
+#### Stories System Architecture
+- **Location**: `/home/x/core/stories/` directory
+- **Purpose**: Capture visions, principles, and system knowledge from conversations
+- **Format**: Markdown files with clear topic-based naming
+- **Organization**: One story per topic/theme, no duplication allowed
+
+#### All 34 Agents Must Be Story-Aware
+- **Meta Agent Primary Responsibility**: Story creation, organization, and management
+- **All Agents Can Reference**: Stories provide context for decisions and development
+- **Update Over Duplicate**: Always update existing stories rather than creating new ones
+- **Conversation Integration**: Every discussion with meta agent updates or creates stories
+
+#### Story Management Protocol
+1. **Check existing stories** before creating new ones
+2. **Use descriptive kebab-case naming**: `ssl-security-principle.md`
+3. **Update stories** when new insights emerge from conversations
+4. **Reference stories** in decision-making processes
+5. **Keep stories organized** and maintain system knowledge continuity
+
+#### Story Categories and Examples
+- **Principles**: `ssl-security-principle.md`, `root-cause-fixing-principle.md`, `no-hardcoded-decorations-principle.md`
+- **Architecture**: `multi-agent-system-architecture.md`, `air-based-living-agents.md`
+- **Conversations**: `stories-system-implementation.md`, `documentation-fixes-discussion.md`
+- **Visions**: `system-evolution-roadmap.md`, `agent-coordination-future.md`
+
+**Integration**: Stories inform all development decisions and provide system-wide context for all 34 agents.
 
 ## 🤝 TEAM COLLABORATION PROTOCOL
 
@@ -153,7 +208,40 @@ gun.get('broadcast').put({
 });
 ```
 
-## 🚨 INTEGRITY ENFORCEMENT PROTOCOL
+## 🚨 SECURITY AND INTEGRITY ENFORCEMENT PROTOCOL
+
+### ABSOLUTE SSL SECURITY RULE - NO EXCEPTIONS
+**NEVER CREATE ANY SELF-SIGNED SSL KEYS**
+
+This is a fundamental, non-negotiable security principle for the entire @akaoio/core multi-agent system:
+
+- **ALL 34 agents must follow this rule** across all teams (meta, core-fix, integration, feature-dev, security, project teams)
+- **ALL projects must comply** (access, air, battle, builder, composer, tui, ui)
+- **Use Let's Encrypt ONLY** for SSL certificates
+- **Use proper Certificate Authority (CA) signed certificates** in all environments
+- **NO development shortcuts** with self-signed certificates
+- **NO temporary exceptions** - this rule has NO EXCEPTIONS
+
+#### Required SSL Implementation
+```bash
+# CORRECT: Use Let's Encrypt
+certbot certonly --nginx -d domain.com
+
+# CORRECT: Use proper CA certificates  
+curl --cert ca-signed-cert.pem --key private-key.pem https://api.example.com
+```
+
+#### Prohibited SSL Practices
+```bash
+# NEVER: Self-signed certificate creation
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+
+# NEVER: Bypass SSL verification
+curl -k https://example.com
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
+```
+
+**Air Project Critical**: The Air P2P network requires CA-signed certificates for all peer connections - NO EXCEPTIONS.
 
 ### ZERO TOLERANCE FOR FAKE CODE
 **CRITICAL**: Every agent MUST enforce real implementations with zero tolerance for deception.
@@ -194,6 +282,64 @@ All agents tracked with public scores:
 - **70-84**: ⚠️ WARNING - Under surveillance
 - **50-69**: 🚨 FAILING - Immediate correction required
 - **0-49**: 🛑 BLOCKED - Cannot work until reformed
+
+## 🎯 ROOT CAUSE FIXING PRINCIPLE - ABSOLUTE DEVELOPMENT LAW
+
+### CRITICAL DEVELOPMENT RULE - NO EXCEPTIONS
+**"FIX THE ROOT CAUSE IN THE SOURCE CODE, NOT THE SYMPTOMS IN GENERATED FILES."**
+
+This is the foundational development principle that ALL 34 agents across ALL teams must follow:
+
+**DETAILED PRINCIPLE:**
+- ✅ ALWAYS fix from the ROOT CAUSE
+- ✅ ALWAYS fix at the SOURCE CODE level  
+- ❌ NEVER fix at surface level without addressing root cause
+- ❌ NEVER fix generated files instead of source files
+
+#### Universal Application
+- **ALL teams**: meta, core-fix, integration, feature-dev, security, project teams
+- **ALL projects**: access, air, battle, builder, composer, tui, ui
+- **ALL fixes**: bugs, features, configurations, documentation, security issues
+
+#### Root Cause Analysis Protocol
+Before ANY fix, agents must:
+1. **Identify the symptom**: What appears broken
+2. **Trace to root cause**: What actually caused the problem
+3. **Fix at source level**: Address the underlying issue
+4. **Verify systematic solution**: Ensure problem cannot recur
+
+#### Anti-Patterns (IMMEDIATELY REJECT)
+- ❌ Editing generated files instead of source files
+- ❌ Manual patches instead of systematic fixes  
+- ❌ Workarounds that ignore root causes
+- ❌ Quick fixes that mask underlying problems
+- ❌ Symptom treatment instead of disease cure
+- ❌ Surface-level corrections without source analysis
+
+#### Source-Level Fix Examples
+```bash
+# ✅ CORRECT: Fix template source
+# Problem: Generated agent files have errors
+# Solution: Fix teams/templates/agent-composer.hbs (source)
+# NOT: Edit individual agent files (generated artifacts)
+
+# ✅ CORRECT: Fix configuration source  
+# Problem: Package name duplication in documentation
+# Solution: Fix YAML atoms in teams/components/
+# NOT: Manually edit README files
+
+# ✅ CORRECT: Fix TypeScript source
+# Problem: Runtime errors in built JavaScript
+# Solution: Fix .ts source files and rebuild
+# NOT: Edit .js built artifacts
+```
+
+#### Integration with Build Architecture
+This principle reinforces existing workspace rules:
+- **Never edit built artifacts** → Fix source files instead
+- **Source-first development** → Root cause analysis traces to source
+- **Zero technical debt** → Systematic solutions prevent accumulation
+- **Living agent system** → Share root cause knowledge across network
 
 ## Project Overview
 
