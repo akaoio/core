@@ -419,6 +419,72 @@ orchestrates other repositories.
 
 
 
+5. **POSIX COMPLIANCE**: ALWAYS MAKE SURE TO OBEY POSIX COMPLIANCE for all shell scripts
+   - **Applies to**: ALL shell files (.sh) across ALL managed repositories (access, air, battle, builder, composer, tui, ui)
+   - **Critical Impact**: Ensures portability across Unix-like systems and prevents system-specific failures
+   - **Rationale**: Shell scripts must work consistently across different environments and distributions
+
+#### POSIX Compliance Requirements
+**MANDATORY for ALL shell scripts**:
+
+```bash
+# ✅ CORRECT: POSIX-compliant shell script header
+#!/bin/sh
+
+# ✅ CORRECT: Use POSIX-compatible commands and syntax
+if [ "$VAR" = "value" ]; then
+    echo "Using POSIX test syntax"
+fi
+
+# ✅ CORRECT: POSIX-compatible parameter expansion
+echo "${HOME}/path"
+
+# ✅ CORRECT: Use standard utilities available in POSIX
+command -v git >/dev/null 2>&1 || { echo "git required"; exit 1; }
+```
+
+**PROHIBITED non-POSIX patterns**:
+```bash
+# ❌ NEVER: Bash-specific shebang in POSIX scripts
+#!/bin/bash
+
+# ❌ NEVER: Bash-specific test syntax
+if [[ "$VAR" == "value" ]]; then
+
+# ❌ NEVER: Bash arrays in POSIX scripts
+array=(one two three)
+
+# ❌ NEVER: Bash-specific string operations
+echo ${VAR,,}  # lowercase conversion
+```
+
+#### POSIX Validation Protocol
+Before committing ANY shell script:
+```bash
+# 1. Validate POSIX compliance
+shellcheck -s sh script.sh
+
+# 2. Test with different shells
+sh script.sh      # POSIX sh
+dash script.sh    # Debian Almquist shell
+busybox sh script.sh  # BusyBox shell
+
+# 3. Verify portability across systems
+# Test on: Linux, macOS, BSD variants
+```
+
+#### Access Project Special Consideration
+- **@akaoio/access** is the FOUNDATIONAL LAYER using pure shell scripts
+- **CRITICAL**: Access shell scripts MUST be POSIX-compliant for maximum portability
+- **When everything else fails, Access survives** - requires absolute shell compatibility
+- **Examples**: `install.sh`, network access scripts, DNS synchronization utilities
+
+#### Cross-Project Shell Script Standards
+- **Installation scripts** (install.sh, setup.sh): MUST be POSIX-compliant
+- **Build scripts** using shell: MUST follow POSIX standards
+- **Deployment scripts**: MUST work across different Unix environments
+- **Utility scripts**: MUST use only POSIX-standard commands and syntax
+
 ### Workspace-Wide Policy
 **This rule applies to all repositories managed by the orchestrator**:
 
@@ -578,7 +644,8 @@ npm run status   # Check health of all repositories
 2. **NEVER create versioned or temporary files** - Refuse files with patterns: v1, v2, simple, fixed, new, temp, old, backup, copy
 3. **Identify file types first** - Check extension before making any edits
 4. **Build after source changes** - Always rebuild before testing
-5. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
+5. **POSIX COMPLIANCE MANDATORY** - ALL shell scripts must be POSIX-compliant (use #!/bin/sh, avoid bash-specific features)
+6. **This applies to ALL managed projects** - composer, battle, builder, air, tui, ui
 
 ### When Working with This Codebase
 1. **Understand the multi-repo pattern** - Don't expect source code here
@@ -590,11 +657,12 @@ npm run status   # Check health of all repositories
 ### When Making Changes
 1. **Verify file type first** - Source (.ts) vs Built (.js) artifacts
 2. **Edit source files only** - Never touch .js/.cjs/.mjs files
-3. **Build immediately after editing** - Ensure artifacts are updated
-4. **Test changes in workspace** before suggesting
-5. **Consider cross-project impact** of modifications  
-6. **Update documentation** when changing workflows
-7. **Verify security** - no sensitive data exposure
+3. **Validate POSIX compliance** - For any shell scripts (.sh files), use shellcheck -s sh
+4. **Build immediately after editing** - Ensure artifacts are updated
+5. **Test changes in workspace** before suggesting
+6. **Consider cross-project impact** of modifications  
+7. **Update documentation** when changing workflows
+8. **Verify security** - no sensitive data exposure
 
 ---
 
