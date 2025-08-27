@@ -17,17 +17,50 @@ architecture:
       type: directory
       description: "Cloned repositories (gitignored)"
       contents:
+        manager: "Universal POSIX shell framework for system management"
         access: "Foundational network access layer - eternal infrastructure"
+        gun: "Real-time P2P database engine"
         composer: "Atomic documentation engine"
         battle: "Universal terminal testing framework"
         builder: "TypeScript build framework"
         air: "Distributed P2P database"
+        dashboard: "Real-time Living Agent Network Dashboard"
 
 core_technologies:
+  - name: "@akaoio/manager"
+    description: "Universal POSIX shell framework for system management"
+    purpose: "Standardized patterns for installer, updater, service, and system management across all AKAO technologies"
+    foundational: true
+    key_features:
+      - "Pure POSIX shell - works forever on any Unix-like system"
+      - "Zero dependencies - only standard POSIX utilities required"
+      - "XDG Base Directory Specification compliance"
+      - "Universal patterns for consistent behavior across technologies"
+      - "Automatic privilege detection with sudo/non-sudo support"
+      - "Cross-platform OS and package manager detection"
+      - "Systemd and cron service management with redundant automation"
+      - "Git-based auto-update with rollback capability"
   - name: "@akaoio/access"
     description: "Foundational network access layer - eternal infrastructure"
     purpose: "Pure shell DNS synchronization - when everything fails, Access survives"
     foundational: true
+  - name: "@akaoio/gun"
+    description: "Security-hardened real-time P2P database engine"
+    purpose: "Powers the Living Agent System communication and real-time coordination with enterprise-grade security"
+    foundational: true
+    security_enhancements:
+      - "WebAuthn integration with hardware security keys (YubiKey, Titan, FIDO2)"
+      - "Biometric authentication (Face ID, Touch ID, Windows Hello)"
+      - "Deterministic key generation for persistent agent identity"
+      - "Enhanced ECC validation with complete curve point validation"
+      - "ArrayBuffer support for modern cryptographic operations"
+      - "Security hardening against common attack vectors"
+      - "PBKDF2 improvements for enhanced password security"
+    enterprise_features:
+      - "100% backward compatibility with original GUN"
+      - "Production-grade security suitable for enterprise deployment"
+      - "Hardware-backed agent authentication"
+      - "Complete cryptographic validation"
   - name: "@akaoio/composer"
     description: "Atomic documentation engine"
     purpose: "Generate all documentation from atomic pieces"
@@ -40,3 +73,12 @@ core_technologies:
   - name: "@akaoio/air"
     description: "Distributed P2P database"
     purpose: "P2P networking and data distribution"
+  - name: "@akaoio/dashboard"
+    description: "Real-time Living Agent Network Dashboard"
+    purpose: "Visual interface for monitoring and managing distributed agent systems"
+    key_features:
+      - "Real-time visualization of Living Agent Network activity"
+      - "Distributed system monitoring and health dashboards"
+      - "Agent coordination and status tracking"
+      - "Integration with @akaoio/air and @akaoio/gun for live data"
+      - "Web-based interface for system oversight and management"

@@ -95,8 +95,17 @@ async function generateAgents() {
     }
     
     console.log(`\n📦 Generated ${agents.length} agents in ${outputDir}`);
-    console.log('\nTo activate the generated agents:');
-    console.log('  cp .claude/agents-generated/* .claude/agents/');
+    
+    // Auto-activate generated agents
+    console.log('\n🔄 Auto-activating generated agents...');
+    try {
+      const { execSync } = require('child_process');
+      execSync('cp .claude/agents-generated/* .claude/agents/ 2>/dev/null || true', { stdio: 'inherit' });
+      console.log('✅ Agents automatically activated');
+    } catch (error) {
+      console.log('⚠️ Could not auto-activate agents - manual activation required:');
+      console.log('  cp .claude/agents-generated/* .claude/agents/');
+    }
     
   } catch (error) {
     console.error('❌ Error generating agents:', error.message);

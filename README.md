@@ -15,9 +15,17 @@ orchestrates other repositories.
 ## 🚀 Core Technologies
 
 
+### @akaoio/manager
+- **Purpose**: Standardized patterns for installer, updater, service, and system management across all AKAO technologies
+- **Description**: Universal POSIX shell framework for system management
+
 ### @akaoio/access
 - **Purpose**: Pure shell DNS synchronization - when everything fails, Access survives
 - **Description**: Foundational network access layer - eternal infrastructure
+
+### @akaoio/gun
+- **Purpose**: Powers the Living Agent System communication and real-time coordination with enterprise-grade security
+- **Description**: Security-hardened real-time P2P database engine
 
 ### @akaoio/composer
 - **Purpose**: Generate all documentation from atomic pieces
@@ -34,6 +42,10 @@ orchestrates other repositories.
 ### @akaoio/air
 - **Purpose**: P2P networking and data distribution
 - **Description**: Distributed P2P database
+
+### @akaoio/dashboard
+- **Purpose**: Visual interface for monitoring and managing distributed agent systems
+- **Description**: Real-time Living Agent Network Dashboard
 
 
 ## 📦 Installation

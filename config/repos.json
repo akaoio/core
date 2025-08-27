@@ -56,22 +56,54 @@
       "description": "Vanilla Web Components framework",
       "core": false, 
       "dependencies": []
+    },
+    "gun": {
+      "url": "https://github.com/amark/gun.git",
+      "branch": "master",
+      "directory": "projects/gun",
+      "description": "Real-time P2P database engine - Powers Living Agent System",
+      "core": true,
+      "foundational": true,
+      "dependencies": []
+    },
+    "dashboard": {
+      "url": "https://github.com/akaoio/dashboard.git",
+      "branch": "master",
+      "directory": "projects/dashboard",
+      "description": "Real-time Living Agent Network Dashboard",
+      "core": true,
+      "dependencies": ["tui", "air", "battle", "builder", "gun"]
+    },
+    "manager": {
+      "url": "https://github.com/akaoio/manager.git",
+      "branch": "main",
+      "directory": "projects/manager",
+      "description": "Universal POSIX shell framework for system management",
+      "core": true,
+      "foundational": true,
+      "dependencies": []
     }
   },
   "build_order": [
+    "manager",
     "access",
+    "gun",
     "builder",
     "battle", 
     "composer",
     "air",
     "tui",
-    "ui"
+    "ui",
+    "dashboard"
   ],
   "core_technologies": [
+    "manager",
     "access",
+    "gun",
     "composer",
     "battle", 
     "builder",
-    "air"
+    "air",
+    "dashboard"
   ]
 }

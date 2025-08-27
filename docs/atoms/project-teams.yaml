@@ -2,6 +2,28 @@
 # Each core project has its own dedicated team for focused development
 
 project_teams:
+  - id: manager
+    name: "@akaoio/manager"
+    description: "Universal POSIX shell framework team - foundational infrastructure"
+    purpose: "Develop and maintain the standardized shell framework for system management across all AKAO technologies"
+    triggers:
+      - "team manager"
+      - "manager team"
+      - "shell framework"
+      - "system management"
+      - "posix"
+      - "installer"
+      - "service management"
+    members:
+      - role: architect
+        specialization: "POSIX shell architecture, XDG compliance, cross-platform compatibility"
+      - role: maintainer
+        specialization: "shell scripting excellence, system integration patterns, backwards compatibility"
+      - role: guardian
+        specialization: "framework stability, universal patterns, eternal infrastructure preservation"
+      - role: integrator
+        specialization: "technology integration, standardization enforcement, ecosystem coordination"
+    
   - id: access
     name: "@akaoio/access"
     description: "Pure shell network access layer - eternal infrastructure team"
@@ -72,20 +94,29 @@ project_teams:
 
   - id: air
     name: "@akaoio/air"
-    description: "Distributed P2P database team"
-    purpose: "Develop and maintain the Living Agent System communication layer"
+    description: "Distributed P2P database team with enterprise security"
+    purpose: "Develop and maintain the Living Agent System communication layer using security-hardened @akaoio/gun"
     triggers:
       - "team air"
       - "air team"
       - "p2p"
       - "gun database"
+      - "security"
+      - "webauthn"
     members:
       - role: architect
-        specialization: "P2P architecture, GUN database, distributed systems"
+        specialization: "P2P architecture, security-hardened GUN database, distributed systems"
       - role: developer
-        specialization: "real-time sync, agent communication, event propagation"
+        specialization: "real-time sync, agent communication, event propagation, cryptographic operations"
       - role: guardian
-        specialization: "data integrity, network security, consensus protocols"
+        specialization: "data integrity, network security, consensus protocols, hardware authentication"
+      - role: security
+        specialization: "WebAuthn integration, deterministic keys, ECC validation, attack prevention"
+    security_focus:
+      - "Hardware security key integration (YubiKey, Titan, FIDO2)"
+      - "Biometric authentication for agent operations"
+      - "Persistent agent identity with deterministic keys"
+      - "Enterprise-grade cryptographic validation"
 
   - id: tui
     name: "@akaoio/tui"
@@ -120,6 +151,27 @@ project_teams:
         specialization: "component development, vanilla JavaScript, ES modules"
       - role: designer
         specialization: "theming system, responsive design, component styling"
+
+  - id: dashboard
+    name: "@akaoio/dashboard"
+    description: "Real-time Living Agent Network Dashboard team"
+    purpose: "Build and maintain visual interfaces for monitoring distributed agent systems"
+    triggers:
+      - "team dashboard"
+      - "dashboard team"
+      - "visualization"
+      - "monitoring"
+      - "agent network"
+      - "real-time dashboard"
+    members:
+      - role: architect
+        specialization: "dashboard architecture, real-time data visualization, system monitoring design"
+      - role: developer
+        specialization: "web interface development, data streaming, agent network integration"
+      - role: designer
+        specialization: "UI/UX for system dashboards, data presentation, responsive monitoring interfaces"
+      - role: integrator
+        specialization: "Air/GUN integration, real-time data feeds, agent coordination display"
 
 # Team coordination patterns
 coordination:
