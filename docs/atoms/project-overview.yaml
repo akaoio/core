@@ -75,10 +75,11 @@ core_technologies:
     purpose: "P2P networking and data distribution"
   - name: "@akaoio/dashboard"
     description: "Real-time Living Agent Network Dashboard"
-    purpose: "Visual interface for monitoring and managing distributed agent systems"
+    purpose: "Visual interface for monitoring and managing distributed agent systems with live updates"
     key_features:
       - "Real-time visualization of Living Agent Network activity"
       - "Distributed system monitoring and health dashboards"
       - "Agent coordination and status tracking"
       - "Integration with @akaoio/air and @akaoio/gun for live data"
       - "Web-based interface for system oversight and management"
+      - "Live system metrics and performance monitoring"

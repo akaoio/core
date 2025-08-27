@@ -44,7 +44,7 @@ orchestrates other repositories.
 - **Description**: Distributed P2P database
 
 ### @akaoio/dashboard
-- **Purpose**: Visual interface for monitoring and managing distributed agent systems
+- **Purpose**: Visual interface for monitoring and managing distributed agent systems with live updates
 - **Description**: Real-time Living Agent Network Dashboard
 
 

@@ -51,6 +51,11 @@ universal_rules:
 workspace_policy:
   enforcement: "This rule applies to all repositories managed by the orchestrator"
   managed_projects:
+    - name: "manager"
+      build_system: "Pure Shell (NO BUILD REQUIRED) - FOUNDATIONAL FRAMEWORK"
+      source_extensions: [".sh"]
+      artifact_extensions: ["N/A - shell is interpreted directly"]
+      special: "Universal POSIX framework - standardizes patterns across all technologies"
     - name: "access"
       build_system: "Pure Shell (NO BUILD REQUIRED) - FOUNDATIONAL LAYER"
       source_extensions: [".sh"]

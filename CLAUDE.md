@@ -213,6 +213,8 @@ orchestrates other repositories.
 ├── scripts/                     # Orchestration scripts
 ├── config/repos.json           # Repository definitions
 ├── projects/                   # Cloned repositories (gitignored)
+│   ├── manager/                # Universal POSIX shell framework for system management
+│   ├── access/                 # Foundational network access layer - eternal infrastructure
 │   ├── composer/               # Atomic documentation engine
 │   ├── battle/                 # Universal terminal testing framework
 │   ├── builder/                # TypeScript build framework
@@ -290,6 +292,13 @@ orchestrates other repositories.
 **This rule applies to all repositories managed by the orchestrator**:
 
 #### Managed Projects Build Systems
+
+- **manager**: Pure Shell (NO BUILD REQUIRED) - FOUNDATIONAL FRAMEWORK
+
+  - Source: .sh
+  - Built: N/A - shell is interpreted directly
+  - **Special**: Universal POSIX framework - standardizes patterns across all technologies
+
 
 - **access**: Pure Shell (NO BUILD REQUIRED) - FOUNDATIONAL LAYER
 
