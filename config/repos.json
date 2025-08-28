@@ -37,9 +37,9 @@
       "url": "https://github.com/akaoio/air.git",
       "branch": "main",
       "directory": "projects/air", 
-      "description": "Distributed P2P database system",
+      "description": "Distributed P2P database system with Stacker framework integration",
       "core": true,
-      "dependencies": ["battle"]
+      "dependencies": ["stacker", "battle"]
     },
     "tui": {
       "url": "https://github.com/akaoio/tui.git",
@@ -74,10 +74,10 @@
       "core": true,
       "dependencies": ["tui", "air", "battle", "builder", "gun"]
     },
-    "manager": {
-      "url": "https://github.com/akaoio/manager.git",
+    "stacker": {
+      "url": "https://github.com/akaoio/stacker.git",
       "branch": "main",
-      "directory": "projects/manager",
+      "directory": "projects/stacker",
       "description": "Universal POSIX shell framework for system management",
       "core": true,
       "foundational": true,
@@ -85,7 +85,7 @@
     }
   },
   "build_order": [
-    "manager",
+    "stacker",
     "access",
     "gun",
     "builder",
@@ -97,7 +97,7 @@
     "dashboard"
   ],
   "core_technologies": [
-    "manager",
+    "stacker",
     "access",
     "gun",
     "composer",
