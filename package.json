@@ -42,8 +42,9 @@
     "projects/battle",
     "projects/builder",
     "projects/air",
-    "projects/tui",
-    "projects/ui"
+    "projects/ui",
+    "projects/stacker",
+    "projects/dashboard"
   ],
   "keywords": [
     "akaoio",
@@ -72,7 +73,7 @@
     "ora": "^6.0.0"
   },
   "dependencies": {
-    "@akaoio/dashboard": "^1.0.1",
+    "blessed": "^0.1.81",
     "glob": "^8.1.0",
     "node-pty": "^1.0.0",
     "strip-ansi": "^7.1.0"
